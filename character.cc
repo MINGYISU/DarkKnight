@@ -1,21 +1,74 @@
 #include "character.h"
+using namespace std;
 
-Character::~Character() { }
+std::string Character::getRace() {}
 
-int damage(int atker, int defer) {
-    double damage = (100 / (100 + defer)) * atker;
-    return std::ceil(damage);
+Character::Character(Map *p, int x, int y, 
+                    int cur_hp, int atk, int def):
+    Decorator{p}, xCor{x}, yCor{y},
+    cur_hp{cur_hp}, atk{atk}, def{def}, toprint{true}{}
+
+Character::~Character() {
+  delete nextLayer;
 }
 
-void Character::move(int to_x, int to_y) {
-    xCor = to_x;
-    yCor = to_y;
+int damage(int atker, int defer)
+{
+  double damage = (100 / (100 + defer)) * atker;
+  return std::ceil(damage);
 }
 
-void Character::changeHP(int amt) { 
-    cur_hp += amt;
-    if (cur_hp < 0) cur_hp = 0;
-} 
+void Character::move(int to_x, int to_y)
+{
+  xCor = to_x;
+  yCor = to_y;
+}
 
-std::string Character::get_race() { return race; }
+void Character::changeHP(int amt)
+{
+  cur_hp += amt;
+  if (cur_hp < 0)
+    cur_hp = 0;
+}
+
+
+bool Character::toPrint(){
+  return toprint;
+}
+
+void Character::setPrint(bool printOrNot){
+  toprint = printOrNot;
+}
+
+
+int Character::getX(){
+  return xCor;
+}
+
+int Character::getY(){
+  return yCor;
+}
+
+int Character::getAtk(){
+  return atk;
+}
+
+int Character::getDef(){
+  return def;
+}
+
+//char Character::charAt(int x, int y){
+//  if((xCor == x) && (yCor == y)){
+//    return 
+//  }
+//}
+
+
+
+//char Character::set_char_at(){
+//  return ' ';//这个是干啥的？？？
+//}
+
+
+
 

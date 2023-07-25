@@ -2,9 +2,13 @@
 #define CHARACTER_H
 
 #include "decorator.h"
+#include <cmath>
 
 class Character: public Decorator {
-    int x, y, hp, atk, def;
+    Character *pc;
+    int xCor, yCor, cur_hp;
+    const int atk, def;
+    std::string race;
 
     public:
         ~Character();
@@ -13,9 +17,12 @@ class Character: public Decorator {
         virtual char char_at();
         int get_X();
         int get_Y();
-        virtual int get_Atk();
-        virtual void move();
-        virtual void attack();
-        virtual void hurt();
+        int get_Atk();
+        int get_Def();
+        std::string get_race();
+        virtual void changeHP();
+        void move(int to_x, int to_y);
+        int damage(int atker, int defer);
 };
 
+#endif

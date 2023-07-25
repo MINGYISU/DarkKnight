@@ -1,28 +1,17 @@
-#include "Player.h"
-using namespace std;
+#include "player.h"
 
-Player::Player(int mhp, int a, int d, int c, PotEffect *p):
-    Maxhp{mhp}, atk{a}, def{d} {
-        CurHp = Maxhp;
-        CurEffect = new Water;
-    }
+char Player::char_at() { return '@'; }
 
-void Player::drinkPot(string PotType) {
-    if (PotType == "RH") {
-        CurHp += 10;//1 restore health
-    } else if (PotType == "PH") {
-        CurHp -= 10;//2 poision health
-    } else if (PotType == "BA") {
-        CurEffect = new BA{CurEffect};//3 boost atk
-    } else if (PotType == "WA") {
-        CurEffect = new WA{CurEffect};//4 wound atk
-    } else if (PotType == "BD") {
-        CurEffect = new BD{CurEffect};//5 boost def
-    } else if (PotType == "WD") {
-        CurEffect = new WD{CurEffect};//6 wound def
-    }
+void Player::attack(Character *e) {
+    int rand = ... % 2;
+    if (e->get_race() == "Halfling") {
+        if (rand == 0) e->hurt(damage(atk, pc->get_Def));
+    } else e->hurt(damage(atk, pc->get_Def));
 }
 
-Player::~Player() {
-    delete CurEffect;
+void Player::changeHP(int amt) {
+    cur_hp += amt;
+    if (cur_hp < 0) cur_hp = 0;
+    else if (cur_hp > max_hp) cur_hp = max_hp;
 }
+

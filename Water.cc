@@ -1,13 +1,7 @@
 #include "Water.h"
 
-using namespace std;
+int Water::changeAtk() { return 0; }
 
-int Water::changeAtk() {
-    return 0;
-}
-
-int Water::changeDef() {
-    return 0;
-}
+int Water::changeDef() { return 0; }
 
 Water::~Water() {}

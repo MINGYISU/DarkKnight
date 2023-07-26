@@ -5,7 +5,8 @@
 
 class Dwarf: public Enemy {
     public:
-       Dwarf();
+       Dwarf(Map *p, int x, int y, Character *pc);
+       char charAt(int x, int y)
 };
 
 #endif

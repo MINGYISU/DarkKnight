@@ -2,7 +2,9 @@
 using namespace std;
 
 DragonHoard::DragonHoard(int x, int y, int a, bool p = false):
-    Gold{x, y, a} {}
+    Gold{x, y, a}, pickability{p}, guardian{nullptr} {
+        
+    }
 
 bool DragonHoard::getPickability() {
     return pickability;

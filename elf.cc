@@ -1,14 +1,21 @@
 #include "elf.h"
 
-Elf::Elf():
+Elf::Elf(Map *p, int x, int y, Character *pc):
+    Enemy{p, x, y, 140, 30, 10, pc} {
+        race = "Elf";
+    }
 
 
 void Elf::attack() {
-    srand(time(0));
-    int r = rand() % 2;
-    if (r == 0 && pc->getRace() != "Drow") {
-        pc->hurt(damage(getAtk(), pc->get_Def()), race);
-        pc->hurt(damage(getAtk(), pc->get_Def()), race);
+    if (pc->getRace() == "Drow") {
+        pc->hurt(damage(getAtk(), pc->getDef()), race);
+    } else {
+        pc->hurt(damage(getAtk(), pc->getDef()), race);
+        pc->hurt(damage(getAtk(), pc->getDef()), race);
     }
 }
 
+char Elf::charAt(int x, int y) {
+    if (x == getX() && y == getY()) return 'E';
+    else return nextLayer->charAt(x, y);
+}

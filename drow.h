@@ -5,7 +5,7 @@
 
 class Drow: public Player {
     public:
-        Drow();
+        Drow(Map *p, int x, int y);
         void drinkPot() override;
         int getAtk() override;
         int getDef() override;

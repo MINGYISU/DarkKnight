@@ -1,11 +1,12 @@
 #include "player.h"
 
 Player::Player(Map *p, int x, int y,
-               int cur_hp, int atk, int def,
-               int max_hp) : 
-               Character{p, x, y, cur_hp, atk, def},
-               max_hp{max_hp} 
-               {}
+               int atk, int def,
+               int max_hp): 
+               Character{p, x, y, max_hp, atk, def},
+               max_hp{max_hp}, gold{0} {
+                CurEffect = new PotDeco{new Water};
+               }
 
 char Player::charAt(int x, int y) {
     if((x == getX()) && (y == getY())) return '@';
@@ -14,7 +15,7 @@ char Player::charAt(int x, int y) {
 
 void Player::attack(Character *e) { e->hurt(damage(getAtk(), e->getDef())); }
 
-void Player::gain(int amt) { gold += amt; }
+void Player::gain(int amt) { asset += amt; }
 
 void Player::changeHP(int amt) {
     cur_hp += amt;
@@ -42,3 +43,8 @@ int getAtk() { return atk + CurEffect->changeAtk(); }
 
 int getDef() { return def + CurEffect->changeDef(); }
 
+void Player::hurt(int dmg, std::string et) { 
+    srand(time(0));
+    int r = rand() % 2;
+    if (r == 0) changeHP(-dmg);
+}

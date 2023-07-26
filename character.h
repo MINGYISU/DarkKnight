@@ -7,9 +7,8 @@
 using namespace std;
 
 class Character: public Decorator {
-    Character *pc;
     const int atk, def;
-    std::string race;
+    const std::string race;
     bool toprint;
     
     protected:

@@ -5,8 +5,9 @@
 
 class Elf: public Enemy {
     public:
-        Elf();
+        Elf(Map *p, int x, int y, Character *pc);
         void attack() override;
+        char charAt(int x, int y) override;
 };
 
 #endif

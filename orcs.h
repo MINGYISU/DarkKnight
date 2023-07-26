@@ -5,7 +5,8 @@
 
 class Orcs: public Enemy {
     public:
-        Orcs();
+        Orcs(Map *p, int x, int y, Character *pc);
+        char charAt(int x, int y) override;
 };
 
 #endif

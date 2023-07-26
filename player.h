@@ -13,7 +13,7 @@ class Player: public Character {
     const int max_hp;
 
     protected:
-    int gold = 0;
+    int asset;
     PotEffect *CurEffect;
     
     public:
@@ -26,6 +26,7 @@ class Player: public Character {
         void changeHP(int amt) override;
         void drinkPot(std::string PotType);
         void gain(int amt);
+        virtual void hurt(int dmg, std::string et);
         virtual int getAtk();
         virtual int getDef();
 };

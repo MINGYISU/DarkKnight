@@ -1,12 +1,9 @@
 #include "vampire.h"
 
-Vampire::Vampire(Map *p, int x, int y,
-                 int cur_hp, int atk, int def,
-                 int max_hp, string r) : 
-                 Player{p, x, y,
-                        cur_hp, atk, def,
-                        max_hp}, 
-                 race{r} {}
+Vampire::Vampire(Map *p, int x, int y):
+    player{p, x, y, 50, 25, 25} {
+        race = "Vampire";
+    }
 
 void Vampire::changeHP(int amt) {
     cur_hp += amt;
@@ -25,9 +22,5 @@ void Vampire::attack(Character *e) {
     }
 }
 
-void Vampire::hurt(int dmg, std::string enemy) { 
-    changeHP(-dmg);
-    return true;
-}
 
 

@@ -11,14 +11,10 @@ void Vampire::changeHP(int amt) {
 }
 
 void Vampire::attack(Character *e) {
-    srand(time(0));
-    int r = rand() % 2;
     std::string er = e->get_race();
-    if ((er != "Halfling") || (er == "Halfling" && r == 0)) {
-        if (e->hurt(damage(getAtk(), pc->get_Def()))) {
-            if (er == "Dwarf") changeHP(-5);
-            else changeHP(5);
-        }
+    if (e->hurt(damage(getAtk(), pc->get_Def()))) {
+        if (er == "Dwarf") changeHP(-5);
+        else changeHP(5);
     }
 }
 

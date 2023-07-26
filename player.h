@@ -21,8 +21,7 @@ class Player: public Character {
                 int cur_hp, int atk, int def,
                 int max_hp);
         char charAt(int x, int y) override;
-        // virtual void attack(Character *e);
-        // virtual void hurt();
+        virtual void attack(Character *e);
         void changeHP(int amt) override;
         void drinkPot(std::string PotType);
         void gain(int amt);

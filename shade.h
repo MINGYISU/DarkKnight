@@ -7,6 +7,6 @@ class Shade: public Player {
     // Default Character
     public:
         Shade(Map *p, int x, int y);
-}
+};
 
 #endif

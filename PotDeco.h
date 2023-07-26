@@ -1,6 +1,8 @@
 #ifndef POTDECO_H
 #define POTDECO_H
+
 #include "PotEffect.h"
+
 using namespace std;
 class PotDeco: public PotEffect {
     protected:
@@ -9,4 +11,5 @@ class PotDeco: public PotEffect {
     PotDeco(PotEffect *p);
     virtual ~PotDeco();
 };
+
 #endif

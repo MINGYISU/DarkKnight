@@ -5,6 +5,7 @@
 
 class Elf: public Enemy {
     public:
+        Elf();
         void attack() override;
 }
 

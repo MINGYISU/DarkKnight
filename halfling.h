@@ -4,8 +4,9 @@
 class Halfling: public Enemy {
     public:
         Halfling();
+        char charAt() override;
         void attack() override;
-        void hurt(int dmg, std::string enemy) override;
+        bool hurt(int dmg) override;
 };
 
 #endif

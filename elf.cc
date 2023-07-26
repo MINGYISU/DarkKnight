@@ -1,5 +1,8 @@
 #include "elf.h"
 
+Elf::Elf():
+
+    
 void Elf::attack() {
     int rand = ... % 2;
     if (rand == 0) {
@@ -7,3 +10,4 @@ void Elf::attack() {
         pc->hurt(damage(atk, pc->get_Def()), race);
     }
 }
+

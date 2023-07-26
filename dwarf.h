@@ -5,7 +5,7 @@
 
 class Dwarf: public Enemy {
     public:
-       
+       Dwarf();
 };
 
 #endif

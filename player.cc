@@ -14,6 +14,7 @@ char Player::charAt(int x, int y) {
 
 void Player::attack(Character *e) { e->hurt(damage(getAtk(), e->getDef())); }
 
+void Player::gain(int amt) { gold += amt; }
 
 void Player::changeHP(int amt) {
     cur_hp += amt;

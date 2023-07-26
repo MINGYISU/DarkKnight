@@ -13,7 +13,7 @@ void Vampire::changeHP(int amt) {
     if (cur_hp < 0) cur_hp = 0;
 }
 
-void Vampire::attack(Enemy *e) {
+void Vampire::attack(Character *e) {
     srand(time(0));
     int r = rand() % 2;
     std::string er = e->get_race();
@@ -25,7 +25,7 @@ void Vampire::attack(Enemy *e) {
     }
 }
 
-bool Vampire::hurt(int dmg, std::string enemy){ 
+void Vampire::hurt(int dmg, std::string enemy) { 
     changeHP(-dmg);
     return true;
 }

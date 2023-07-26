@@ -4,7 +4,7 @@
 void Enemy::attack() {
     srand(time(0));
     int rand = rand() % 2;
-    if (rand == 0) pc->hurt(damage(atk, pc->get_Def()), race);
+    if (rand == 0) pc->hurt(damage(getAtk(), pc->get_Def()), race);
 }
 
 bool Enemy::hurt(int dmg) {

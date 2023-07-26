@@ -30,6 +30,8 @@ bool Character::toPrint() { return toprint; }
 
 void Character::setPrint(bool printOrNot) { toprint = printOrNot; }
 
+bool Character::dead() { return cur_hp <= 0; }
+
 int Character::getX() { return xCor; }
 
 int Character::getY() { return yCor; }
@@ -38,5 +40,5 @@ int Character::getAtk() { return atk; }
 
 int Character::getDef() { return def; }
 
-
+int Character::getHP() { return cur_hp; }
 

@@ -25,6 +25,7 @@ class Player: public Character {
         // virtual void hurt();
         void changeHP(int amt) override;
         void drinkPot(std::string PotType);
+        void gain(int amt);
         virtual int getAtk();
         virtual int getDef();
 };

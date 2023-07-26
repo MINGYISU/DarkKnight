@@ -2,12 +2,13 @@
 
 Elf::Elf():
 
-    
+
 void Elf::attack() {
-    int rand = ... % 2;
-    if (rand == 0) {
-        pc->hurt(damage(atk, pc->get_Def()), race);
-        pc->hurt(damage(atk, pc->get_Def()), race);
+    srand(time(0));
+    int r = rand() % 2;
+    if (r == 0 && pc->getRace() != "Drow") {
+        pc->hurt(damage(getAtk(), pc->get_Def()), race);
+        pc->hurt(damage(getAtk(), pc->get_Def()), race);
     }
 }
 

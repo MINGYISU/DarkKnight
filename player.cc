@@ -13,7 +13,9 @@ char Player::charAt(int x, int y) {
     else return nextLayer->charAt(x, y);
 }
 
-void Player::attack(Character *e) { e->hurt(damage(getAtk(), e->getDef())); }
+void Player::attack(Character *e) { 
+    bool result = e->hurt(damage(getAtk(), e->getDef())); 
+}
 
 void Player::gain(int amt) { asset += amt; }
 

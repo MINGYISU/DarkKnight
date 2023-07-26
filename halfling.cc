@@ -13,10 +13,6 @@ Character* Halfling::copy(int x, int y) {
     return h;
 }
 
-void Halfling::attack() {
-    p->hurt(damage(atk, pc->get_Def()), race);
-}
-
 bool Halfling::hurt(int dmg) {
     srand(time(0));
     int r = rand() % 2;

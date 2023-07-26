@@ -6,7 +6,6 @@
 class Halfling: public Enemy {
     public:
         Halfling(Map *p, int x, int y, Character *pc);
-        char charAt() override;
         bool hurt(int dmg) override;
         char charAt(int x, int y) override;
 };

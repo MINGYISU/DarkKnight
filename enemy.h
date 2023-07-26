@@ -4,10 +4,13 @@
 #include "character.h"
 
 class Enemy: public Character {
+    Character *pc;
+
     public:
+    Enemy();
     virtual void print() = 0;
-    void attack() override;
-    virtual void hurt();
+    virtual void attack();
+    virtual bool hurt(int dmg);
 };
 
 #endif

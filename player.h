@@ -2,11 +2,19 @@
 #define PLAYER_H
 
 #include "character.h"
-//#include "potion.h"
+#include "Water.h"
+#include "BA.h"
+#include "WA.h"
+#include "BD.h"
+#include "WD.h"
+#include <string>
 
 class Player: public Character {
     const int max_hp;
+
+    protected:
     int gold = 0;
+    PotEffect *CurEffect;
     
     public:
         Player(Map *p, int x, int y, 
@@ -16,6 +24,9 @@ class Player: public Character {
         // virtual void attack(Character *e);
         // virtual void hurt();
         void changeHP(int amt) override;
+        void drinkPot(std::string PotType);
+        virtual int getAtk();
+        virtual int getDef();
 };
 
 #endif

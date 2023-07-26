@@ -12,7 +12,7 @@ char Player::charAt(int x, int y) {
     else return nextLayer->charAt(x, y);
 }
 
-void Player::attack(Character *e) { e->hurt(damage(atk, e->getDef)); }
+void Player::attack(Character *e) { e->hurt(damage(getAtk(), e->getDef())); }
 
 
 void Player::changeHP(int amt) {
@@ -21,5 +21,23 @@ void Player::changeHP(int amt) {
     else if (cur_hp > max_hp) cur_hp = max_hp;
 }
 
+void Player::drinkPot(string PotType) {
+    if (PotType == "RH") {
+        changeHP(10); //1 restore health
+    } else if (PotType == "PH") {
+        changeHP(-10); //2 poision health
+    } else if (PotType == "BA") {
+        CurEffect = new BA{CurEffect}; //3 boost atk
+    } else if (PotType == "WA") {
+        CurEffect = new WA{CurEffect}; //4 wound atk
+    } else if (PotType == "BD") {
+        CurEffect = new BD{CurEffect}; //5 boost def
+    } else if (PotType == "WD") {
+        CurEffect = new WD{CurEffect}; //6 wound def
+    }
+}
 
+int getAtk() { return atk + CurEffect->changeAtk(); }
+
+int getDef() { return def + CurEffect->changeDef(); }
 

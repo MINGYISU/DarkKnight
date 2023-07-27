@@ -23,7 +23,7 @@ class Chamber: public Decorator{//abstract class, have 5 subclass
     void spawnCoordinate(int& x, int& y);
     //only return a random coordinate
     //the real ctor is run in main func
-    void printUsedSpawningPlace();
+    //void printUsedSpawningPlace();
     ~Chamber(); //abstract class
 };
 

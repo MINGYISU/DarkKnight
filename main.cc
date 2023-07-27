@@ -5,6 +5,7 @@
 #include "decorator.h"
 #include "blank.h"
 #include "stair.h"
+#include "mapPotion.h"
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
@@ -16,6 +17,91 @@
 
 
 using namespace std;
+
+
+
+
+bool movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string cmd, Player* player,
+                vector<MapPotion*>* listPot){
+    char out = ' ';
+    int intendXCor = 0;
+    int intendYCor = 0;
+
+    bool drinkPot = false;
+
+    if(cmd[0] == 'u'){
+        cmd = cmd.substr(2, 2);
+        drinkPot = true;
+    }
+
+
+    if(cmd == "no"){
+        intendXCor = currentPlayerXCor;
+        intendYCor = currentPlayerYCor - 1;
+    }else if(cmd == "so"){
+        intendXCor = currentPlayerXCor;
+        intendYCor = currentPlayerYCor + 1;
+    }else if(cmd == "ea"){
+        intendXCor = currentPlayerXCor + 1;
+        intendYCor = currentPlayerYCor;
+    }else if(cmd == "we"){
+        intendXCor = currentPlayerXCor - 1;
+        intendYCor = currentPlayerYCor;
+    }else if(cmd == "ne"){
+        intendXCor = currentPlayerXCor + 1;
+        intendYCor = currentPlayerYCor - 1;
+    }else if(cmd == "nw"){
+        intendXCor = currentPlayerXCor - 1;
+        intendYCor = currentPlayerYCor - 1;
+    }else if(cmd == "se"){
+        intendXCor = currentPlayerXCor + 1;
+        intendYCor = currentPlayerYCor + 1;
+    }else if(cmd == "sw"){
+        intendXCor = currentPlayerXCor - 1;
+        intendYCor = currentPlayerYCor + 1;
+    }
+    //else if(cmd == "q"){
+        //return false;
+    //}
+    else{
+        cout << "请输入正确指令" << endl;
+        return true;
+    }
+
+
+    out = w->picture()->charAt(intendXCor, intendYCor);
+
+
+    if ((out == '.') || (out == '+') || (out == '#'))
+    {
+        player->move(intendXCor, intendYCor);
+    }
+    else if (out == '\\')
+    {
+        player->move(intendXCor, intendYCor);
+        //break;
+        return false;
+
+    }
+    else if(drinkPot){
+        for(int i = 0; i < listPot->size(); i++){
+            if(listPot->at(i)->charAt(intendXCor, intendYCor) == 'P'){
+                //使用药水
+                listPot->at(i)->setPrint(false);
+            }
+        }
+    }
+    else
+    {
+        cout << "前面的区域，以后再来探索吧" << endl;
+    }
+    
+    
+    return true;
+}
+
+
+
 
 int main()
 {
@@ -30,6 +116,7 @@ int main()
         }
         // FLOOR BUILDING STAGE!!!
         vector<Chamber *> listChamber; // 这些可能会有memo error
+        vector<MapPotion*> listPot; 
         // vector<Enemy*> listEnemy;
 
         // init the map
@@ -90,16 +177,27 @@ int main()
         listChamber.at(randomChamberIndex)->spawnCoordinate(xCorStair, yCorStair);
         Stair* stair = new Stair(w.picture(), xCorStair, yCorStair);
         w.picture() = stair;
-        w.display();
+        
 
 
         // generate the potion
-
+        for(int i = 0; i < 5; i++){
+            int xCorPot = 0;
+            int yCorPot = 0;
+            randomChamberIndex = rand() % 5;
+            listChamber.at(randomChamberIndex)->spawnCoordinate(xCorPot, yCorPot);
+            string arrPotName[6] = {"BA", "BD", "WA", "WD", "PH", "RH"};
+            int randomPotName = rand() % 6;
+            MapPotion *pot = new MapPotion(w.picture(), xCorPot, yCorPot, arrPotName[randomPotName]);
+            listPot.push_back(pot);
+            w.picture() = pot;
+        }
         //generate the gold
 
         //generate the enemy
 
 
+        w.display();
 
 
         //READING CMD STAGE!!!
@@ -112,148 +210,17 @@ int main()
             cout << "ne for northeast, nw for northwest, se for southeast, sw for southwest" << endl;
             //cout << "u direction to drink potion, there is a blank between!" << endl;
 
-            cin >> cmd;
+            getline(cin, cmd);
             int currentPlayerXCor = player->getX();
             int currentPlayerYCor = player->getY();
             //cout << currentPlayerXCor << " " << currentPlayerYCor << endl;
-            if(cmd == "no"){
-                char out = w.picture()->charAt(currentPlayerXCor, currentPlayerYCor - 1);
-                if ((out == '.') || (out == '+') || (out == '#'))
-                {
-                    player->move(currentPlayerXCor, currentPlayerYCor - 1);
-                }
-                else if (out == '\\'){
-                    player->move(currentPlayerXCor, currentPlayerYCor - 1);
-                    break;
-                }
-                else{
 
-                    cout << "前面的区域，以后再来探索吧" << endl;
-                }
-            }else if(cmd == "so"){
-                char out = w.picture()->charAt(currentPlayerXCor, currentPlayerYCor + 1);
-                if ((out == '.') || (out == '+') || (out == '#'))
-                {
-                    player->move(currentPlayerXCor, currentPlayerYCor + 1);
-                }
-                else if (out == '\\')
-                {
-                    player->move(currentPlayerXCor, currentPlayerYCor + 1);
-                    break;
-                }
-                else
-                {
+            if (movePlayer(&w, currentPlayerXCor, currentPlayerYCor, cmd, player, &listPot)){
 
-                    cout << "前面的区域，以后再来探索吧" << endl;
-                }
-            }else if(cmd == "ea"){
-                char out = w.picture()->charAt(currentPlayerXCor + 1, currentPlayerYCor);
-                if ((out == '.') || (out == '+') || (out == '#'))
-                {
-                    player->move(currentPlayerXCor + 1, currentPlayerYCor);
-                }
-                else if (out == '\\')
-                {
-                    player->move(currentPlayerXCor + 1, currentPlayerYCor);
-                    break;
-                }
-                else
-                {
-
-                    cout << "前面的区域，以后再来探索吧" << endl;
-                }
-            }else if(cmd == "we"){
-                char out = w.picture()->charAt(currentPlayerXCor - 1, currentPlayerYCor);
-                if ((out == '.') || (out == '+') || (out == '#'))
-                {
-                    player->move(currentPlayerXCor - 1, currentPlayerYCor);
-                }
-                else if (out == '\\')
-                {
-                    player->move(currentPlayerXCor - 1, currentPlayerYCor);
-                    break;
-                }
-                else
-                {
-
-                    cout << "前面的区域，以后再来探索吧" << endl;
-                }
+            }else{ // next for loop
+                break;
             }
-            else if (cmd == "ne")
-            {
-                char out = w.picture()->charAt(currentPlayerXCor + 1, currentPlayerYCor - 1);
-                if (out == '.' || out == '+' || out == '#')
-                {
-                    player->move(currentPlayerXCor + 1, currentPlayerYCor - 1);
-                }
-                else if (out == '\\')
-                {
-                    player->move(currentPlayerXCor + 1, currentPlayerYCor - 1);
-                    break;
-                }
-                else
-                {
 
-                    cout << "前面的区域，以后再来探索吧" << endl;
-                }
-            }
-            else if (cmd == "nw")
-            {
-                char out = w.picture()->charAt(currentPlayerXCor - 1, currentPlayerYCor - 1);
-                if (out == '.' || out == '+' || out == '#')
-                {
-                    player->move(currentPlayerXCor - 1, currentPlayerYCor - 1);
-                }
-                else if (out == '\\')
-                {
-                    player->move(currentPlayerXCor - 1, currentPlayerYCor - 1);
-                    break;
-                }
-                else
-                {
-
-                    cout << "前面的区域，以后再来探索吧" << endl;
-                }
-            }
-            else if (cmd == "se")
-            {
-                char out = w.picture()->charAt(currentPlayerXCor + 1, currentPlayerYCor + 1);
-                if (out == '.' || out == '+' || out == '#')
-                {
-                    player->move(currentPlayerXCor + 1, currentPlayerYCor + 1);
-                }
-                else if (out == '\\')
-                {
-                    player->move(currentPlayerXCor + 1, currentPlayerYCor + 1);
-                    break;
-                }
-                else
-                {
-
-                    cout << "前面的区域，以后再来探索吧" << endl;
-                }
-            }
-            else if (cmd == "sw")
-            {
-                char out = w.picture()->charAt(currentPlayerXCor - 1, currentPlayerYCor + 1);
-                if (out == '.' || out == '+' || out == '#')
-                {
-                    player->move(currentPlayerXCor - 1, currentPlayerYCor + 1);
-                }
-                else if (out == '\\')
-                {
-                    player->move(currentPlayerXCor - 1, currentPlayerYCor + 1);
-                    break;
-                }
-                else
-                {
-
-                    cout << "前面的区域，以后再来探索吧" << endl;
-                }
-            }
-            else{
-                //break;
-            }
             w.display();
         }
     }

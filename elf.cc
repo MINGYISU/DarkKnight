@@ -5,10 +5,10 @@ Elf::Elf(Map *p, int x, int y, Player *pc, std::string r):
 
 void Elf::attack() {
     if (pc->getRace() == "Drow") {
-        pc->hurt(damage(getAtk(), pc->getDef()), race);
+        pc->hurt(damage(getAtk(), pc->getDef()), getRace());
     } else {
-        pc->hurt(damage(getAtk(), pc->getDef()), race);
-        pc->hurt(damage(getAtk(), pc->getDef()), race);
+        pc->hurt(damage(getAtk(), pc->getDef()), getRace());
+        pc->hurt(damage(getAtk(), pc->getDef()), getRace());
     }
 }
 

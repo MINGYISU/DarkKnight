@@ -1,6 +1,6 @@
-#include "Merchant"
+#include "merchant.h"
 
-Merchant(Map *p, int x, int y, Player *pc, ChamberOfCommerce *home):
+Merchant::Merchant(Map *p, int x, int y, Player *pc, ChamberOfCommerce *home):
     Enemy{p, x, y, 30, 70, 5, pc}, home{home} {}
 
 void Merchant::call() { home->warning(); } // notify the chamber of commerce

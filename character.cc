@@ -6,7 +6,7 @@ std::string Character::getRace() { return race; }
 Character::Character(Map *p, int x, int y, 
                     int cur_hp, int atk, int def):
     Decorator{p}, xCor{x}, yCor{y},
-    cur_hp{cur_hp}, atk{atk}, def{def}, toprint{true} {}
+    cur_hp{cur_hp}, atk{atk}, def{def} {}
 
 Character::~Character() { }
 
@@ -26,7 +26,7 @@ void Character::changeHP(int amt) { // This is the changeHP() for Enemy
 }
 
 
-bool Character::toPrint() { return toprint; }
+// bool Character::toPrint() { return toprint; }
 
 // void Character::setPrint(bool printOrNot) { toprint = printOrNot; }
 

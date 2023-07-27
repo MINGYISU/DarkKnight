@@ -26,7 +26,7 @@ class Character: public Decorator {
         virtual int getDef();
         int getHP();
         bool dead();
-        std::string getRace() = 0;
+        std::string getRace();
         virtual void changeHP(int amt);
         void move(int to_x, int to_y);
         int damage(int atker, int defer);

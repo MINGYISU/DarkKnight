@@ -8,6 +8,8 @@ Player::Player(Map *p, int x, int y,
                 CurEffect = new Water;
                }
 
+Player::~Player() { delete CurEffect; }
+
 char Player::charAt(int x, int y) {
     if((x == getX()) && (y == getY())) return '@';
     else return nextLayer->charAt(x, y);

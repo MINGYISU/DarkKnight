@@ -5,7 +5,7 @@
 
 class Human: public Enemy {
     public:
-        Human(Map *p, int x, int y, Character *pc);
+        Human(Map *p, int x, int y, Player *pc, std::string r = "Human");
         char charAt(int x, int y) override;
 };
 

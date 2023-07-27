@@ -1,9 +1,7 @@
 #include "drow.h"
 
-Drow::Drow(Map *p, int x, int y):
-    player{p, x, y, 150, 25, 15} {
-        race = "Drow";
-    }
+Drow::Drow(Map *p, int x, int y, std::string r):
+    player{p, x, y, 150, 25, 15, r} {}
 
 int Drow::getAtk() { atk + CurEffect->changeAtk() * 3 / 2; }
 

@@ -5,7 +5,7 @@
 
 class Orcs: public Enemy {
     public:
-        Orcs(Map *p, int x, int y, Character *pc);
+        Orcs(Map *p, int x, int y, Player *pc, std::string r = "Orcs");
         char charAt(int x, int y) override;
 };
 

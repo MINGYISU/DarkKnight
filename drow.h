@@ -5,7 +5,7 @@
 
 class Drow: public Player {
     public:
-        Drow(Map *p, int x, int y);
+        Drow(Map *p, int x, int y, std::string r = "Drow");
         void drinkPot() override;
         int getAtk() override;
         int getDef() override;

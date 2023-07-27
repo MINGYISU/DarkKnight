@@ -1,15 +1,7 @@
 #include "halfling.h"
 
-Halfling::Halfling(Map *p, int x, int y, Character *pc):
-    Enemy{p, x, y, 100, 15, 20, pc} {
-        race = "Halfling";
-    }
-
-
-char Halfling::charAt(int x, int y) {
-    if (x == xCor && y == yCor) return 'L';
-    else ' ';
-}
+Halfling::Halfling(Map *p, int x, int y, Player *pc, std::string r):
+    Enemy{p, x, y, 100, 15, 20, pc, r} {}
 
 
 bool Halfling::hurt(int dmg) {
@@ -21,7 +13,7 @@ bool Halfling::hurt(int dmg) {
     } else return false;
 }
 
-char Dragon::charAt(int x, int y) {
+char Halfling::charAt(int x, int y) {
     if (x == getX() && y == getY()) return 'L';
     else return nextLayer->charAt(x, y);
 }

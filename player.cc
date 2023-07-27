@@ -2,9 +2,9 @@
 
 Player::Player(Map *p, int x, int y,
                int atk, int def,
-               int max_hp): 
-               Character{p, x, y, max_hp, atk, def},
-               max_hp{max_hp}, gold{0} {
+               int max_hp, std::string r): 
+               Character{p, x, y, max_hp, atk, def, r},
+               max_hp{max_hp}, asset{0} {
                 CurEffect = new Water;
                }
 

@@ -3,9 +3,9 @@
 
 #include "player.h"
 
-class Vampire : public Player{
+class Vampire: public Player{
     public:
-        Vampire(Map *p, int x, int y);
+        Vampire(Map *p, int x, int y, std::string r = "Vampire");
         void changeHP(int amt) override;
         void attack(Character *e) override;
 };

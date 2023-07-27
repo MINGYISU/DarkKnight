@@ -1,9 +1,7 @@
 #include "goblin.h"
 
-Goblin::Goblin(Map *p, int x, int y):
-    player{p, x, y, 110, 15, 20} {
-        race = "Goblin";
-    }
+Goblin::Goblin(Map *p, int x, int y, std::string r):
+    player{p, x, y, 110, 15, 20} {}
 
 void Goblin::attack(Character *e) {
     if (e->hurt(damage(getAtk(), e->getDef()))) {

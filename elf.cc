@@ -1,10 +1,7 @@
 #include "elf.h"
 
-Elf::Elf(Map *p, int x, int y, Character *pc):
-    Enemy{p, x, y, 140, 30, 10, pc} {
-        race = "Elf";
-    }
-
+Elf::Elf(Map *p, int x, int y, Player *pc, std::string r):
+    Enemy{p, x, y, 140, 30, 10, pc, r} {}
 
 void Elf::attack() {
     if (pc->getRace() == "Drow") {

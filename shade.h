@@ -6,7 +6,7 @@
 class Shade: public Player {
     // Default Character
     public:
-        Shade(Map *p, int x, int y);
+        Shade(Map *p, int x, int y, std::string r = "Shade");
 };
 
 #endif

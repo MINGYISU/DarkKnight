@@ -5,7 +5,7 @@
 
 class Dwarf: public Enemy {
     public:
-       Dwarf(Map *p, int x, int y, Character *pc);
+       Dwarf(Map *p, int x, int y, Player *pc, std::string r = "Dwarf");
        char charAt(int x, int y)
 };
 

@@ -1,9 +1,7 @@
 #include "Merchant"
 
 Merchant(Map *p, int x, int y, Character *pc):
-    Enemy{p, x, y, 30, 70, 5, pc} {
-        race = "Merchant";
-    }
+    Enemy{p, x, y, 30, 70, 5, pc} {}
 
 void Merchant::call() { home->warning(); } // notify the chamber of commerce
 

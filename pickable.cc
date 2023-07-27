@@ -1,17 +1,27 @@
 #include "pickable.h"
 using namespace std;
 
-Pickable::Pickable(int x, int y):
-    xCor{x}, yCor{y}, toPrint{true} {}
+Pickable::Pickable(Map *p, int x, int y) : 
+    Decorator{p}, xCor{x}, yCor{y}, toprint{true} {}
 
-int Pickable::getX() {
+int Pickable::getX()
+{
     return xCor;
 }
 
-int Pickable::getY() {
+int Pickable::getY()
+{
     return yCor;
 }
 
-bool Pickable::toPrint() {}
+bool Pickable::toPrint() {
+    return toprint;
+}
 
-void Pickable::setPrint() {}
+void Pickable::setPrint(bool b) {
+    toprint = b;
+}
+
+char Pickable::charAt(int x, int y){}
+
+

@@ -11,10 +11,6 @@ char Halfling::charAt(int x, int y) {
     else ' ';
 }
 
-Character* Halfling::copy(int x, int y) {
-    Character* h = new Halfling(x, y);
-    return h;
-}
 
 bool Halfling::hurt(int dmg) {
     srand(time(0));

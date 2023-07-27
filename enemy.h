@@ -5,10 +5,10 @@
 #include "player.h"
 
 class Enemy: public Character {
-    Character *pc;
+    Player *pc;
 
     public:
-    Enemy(Map *p, int x, int y, int atk, int def, int max_hp, Character *pc);
+    Enemy(Map *p, int x, int y, int atk, int def, int max_hp, Player *pc);
     virtual void print() = 0;
     virtual void attack();
     virtual bool hurt(int dmg);

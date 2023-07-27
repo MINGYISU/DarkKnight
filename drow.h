@@ -9,6 +9,6 @@ class Drow: public Player {
         void drinkPot() override;
         int getAtk() override;
         int getDef() override;
-}
+};
 
 #endif

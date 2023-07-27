@@ -7,7 +7,7 @@
 class Merchant: public Enemy {
     ChamberOfCommerce *home;
     public:
-        Merchant(Map *p, int x, int y, Player *pc);
+        Merchant(Map *p, int x, int y, Player *pc, ChamberOfCommerce *home);
         void attack() override;
         void hurt(int dmg) override;
         void call();

@@ -1,12 +1,14 @@
 #ifndef PICKABLE_H
 #define PICKABLE_H
-using namespace std;
+
+#include "decorator.h"
+
 
 class Pickable {
     bool toPrint;
     int xCor, yCor;
     public:
-    Pickable(int x, int y, bool t = true);
+    Pickable(int x, int y);
     virtual char charAt();
     int getX();
     int getY();

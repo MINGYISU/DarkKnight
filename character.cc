@@ -28,7 +28,7 @@ void Character::changeHP(int amt) { // This is the changeHP() for Enemy
 
 bool Character::toPrint() { return toprint; }
 
-void Character::setPrint(bool printOrNot) { toprint = printOrNot; }
+// void Character::setPrint(bool printOrNot) { toprint = printOrNot; }
 
 bool Character::dead() { return cur_hp <= 0; }
 

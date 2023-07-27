@@ -1,8 +1,8 @@
 #include "pickable.h"
 using namespace std;
 
-Pickable::Pickable(int x, int y, bool t):
-    xCor{x}, yCor{y} {}
+Pickable::Pickable(int x, int y):
+    xCor{x}, yCor{y}, toPrint{true} {}
 
 int Pickable::getX() {
     return xCor;

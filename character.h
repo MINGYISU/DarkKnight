@@ -9,7 +9,7 @@ using namespace std;
 class Character: public Decorator {
     const int atk, def;
     const std::string race;
-    bool toprint;
+    // bool toprint;
     
     protected:
         int xCor, yCor, cur_hp;
@@ -19,7 +19,7 @@ class Character: public Decorator {
                   int atk, int def);
         ~Character();
         bool toPrint();
-        void setPrint(bool printOrNot);
+        // void setPrint(bool printOrNot);
         int getX();
         int getY();
         virtual int getAtk();

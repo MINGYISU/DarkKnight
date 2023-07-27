@@ -2,18 +2,20 @@
 #define DRAGOBHOARD_H
 
 #include "gold.h"
+#include "dragon.h"
 
-using namespace std;
 class DragonHoard: public Gold {
     protected:
-        bool pickability;
+        // bool pickability;
         Map *guardian;
 
     public:
-        DragonHoard(int x, int y, int a = 0, bool p = false); //constructor
+        DragonHoard(int x, int y); //constructor
+        /*
         bool getPickability(); // return the pickability
-        void setAmount(int a); // change the amount of gold
-        void setPickability(bool p); // change the pickability field
+        void setPickability(); // change the pickability field
+        */
+        void attack();
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "coc.h"
 
-ChamberOfCommerce::ChamberOfCommerce(bool hunt = false):
-    manhunt{hunt} {}
+ChamberOfCommerce::ChamberOfCommerce():
+    manhunt{false} {}
 
 void ChamberOfCommerce::warning() { manhunt = true; } // A merchant was attacked, become hostile
 

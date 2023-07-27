@@ -4,7 +4,7 @@
 class ChamberOfCommerce {
     bool manhunt;
     public:
-        ChamberOfCommerce(bool hunt);
+        ChamberOfCommerce();
         void warning();
         bool wanted();
 };

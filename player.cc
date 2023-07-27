@@ -5,7 +5,7 @@ Player::Player(Map *p, int x, int y,
                int max_hp): 
                Character{p, x, y, max_hp, atk, def},
                max_hp{max_hp}, gold{0} {
-                CurEffect = new PotDeco{new Water};
+                CurEffect = new Water;
                }
 
 char Player::charAt(int x, int y) {

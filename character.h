@@ -7,11 +7,11 @@
 using namespace std;
 
 class Character: public Decorator {
-    const int atk, def;
     const std::string race;
     // bool toprint;
     
     protected:
+        const int atk, def;
         int xCor, yCor, cur_hp;
 
     public:
@@ -30,6 +30,7 @@ class Character: public Decorator {
         virtual void changeHP(int amt);
         void move(int to_x, int to_y);
         int damage(int atker, int defer);
+        virtual bool hurt(int dmg) = 0;
 };
 
 #endif

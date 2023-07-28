@@ -7,7 +7,7 @@ class Goblin: public Player {
     public:
         Goblin(Map *p, int x, int y, std::string r = "Goblin");
         void attack(Character *e) override;
-        void hurt(int dmg, std::string e) override;
+        //bool hurt(int dmg) override;
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "goblin.h"
 
 Goblin::Goblin(Map *p, int x, int y, std::string r):
-    player{p, x, y, 110, 15, 20} {}
+    Player{p, x, y, 110, 15, 20, r} {}
 
 void Goblin::attack(Character *e) {
     if (e->hurt(damage(getAtk(), e->getDef()))) {
@@ -9,7 +9,8 @@ void Goblin::attack(Character *e) {
     }
 }
 
-void Goblin::hurt(int dmg, std::string enemy) {
-    if (enemy == "Orcs") dmg * 3 / 2;
-    changeHP(-dmg);
-}
+//void Goblin::hurt(int dmg, std::string e) {
+//    if (enemy == "Orcs") dmg * 3 / 2;
+//    changeHP(-dmg);
+//    return true;
+//}

@@ -17,16 +17,14 @@ class Player: public Character {
     PotEffect *CurEffect;
     
     public:
-        Player(Map *p, int x, int y, 
-                int cur_hp, int atk, int def,
-                int max_hp, std::string r);
-        ~Player();
+        Player(Map *p, int x, int y, int max_hp, 
+                int atk, int def, std::string r);
         char charAt(int x, int y) override;
         virtual void attack(Character *e);
         void changeHP(int amt) override;
-        void drinkPot(std::string PotType);
+        virtual void drinkPot(std::string PotType);
         void gain(int amt);
-        virtual void hurt(int dmg, std::string et);
+        bool hurt(int dmg) override;
         virtual int getAtk();
         virtual int getDef();
 };

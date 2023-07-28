@@ -1,6 +1,6 @@
 #include "human.h"
 
-Human::Human(Map *p, int x, int y, Player *pc, std::string r = "Merchant"):
+Human::Human(Map *p, int x, int y, Player *pc, std::string r):
     Enemy{p, x, y, 140, 20, 20, pc, r} {}
 
 char Human::charAt(int x, int y) {

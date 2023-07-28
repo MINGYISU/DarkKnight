@@ -10,7 +10,7 @@ Character::Character(Map *p, int x, int y,
 
 Character::~Character() { }
 
-int damage(int atker, int defer) {
+int Character::damage(int atker, int defer) {
   double damage = (100 / (100 + defer)) * atker;
   return std::ceil(damage);
 }

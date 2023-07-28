@@ -7,3 +7,12 @@ char Orcs::charAt(int x, int y) {
     if (x == getX() && y == getY()) return 'O';
     else return nextLayer->charAt(x, y);
 }
+
+void Orcs::attack(){
+    int d = damage(getAtk(), pc->getDef());
+    if(pc->getRace() == "Goblin"){
+        d = d * 3 / 2;
+    }
+    pc->hurt(d);
+}
+

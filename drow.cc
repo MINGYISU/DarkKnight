@@ -1,11 +1,11 @@
 #include "drow.h"
 
 Drow::Drow(Map *p, int x, int y, std::string r):
-    player{p, x, y, 150, 25, 15, r} {}
+    Player{p, x, y, 150, 25, 15, r} {}
 
-int Drow::getAtk() { atk + CurEffect->changeAtk() * 3 / 2; }
+int Drow::getAtk() { getAtk() + CurEffect->changeAtk() * 3 / 2; }
 
-int Drow::getDef() { def + CurEffect->changeDef() * 3 / 2; }
+int Drow::getDef() { getDef() + CurEffect->changeDef() * 3 / 2; }
 
 void Drow::drinkPot(string PotType) {
     if (PotType == "RH") {

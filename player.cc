@@ -1,14 +1,11 @@
 #include "player.h"
 
-Player::Player(Map *p, int x, int y,
-               int atk, int def,
-               int max_hp, std::string r): 
+Player::Player(Map *p, int x, int y, int max_hp,
+               int atk, int def, std::string r): 
                Character{p, x, y, max_hp, atk, def, r},
                max_hp{max_hp}, asset{0} {
                 CurEffect = new Water;
                }
-
-Player::~Player() { delete CurEffect; }
 
 char Player::charAt(int x, int y) {
     if((x == getX()) && (y == getY())) return '@';
@@ -43,12 +40,13 @@ void Player::drinkPot(string PotType) {
     }
 }
 
-int getAtk() { return atk + CurEffect->changeAtk(); }
+int Player::getAtk() { return atk + CurEffect->changeAtk(); }
 
-int getDef() { return def + CurEffect->changeDef(); }
+int Player::getDef() { return atk + CurEffect->changeDef(); }
 
-void Player::hurt(int dmg, std::string et) { 
+bool Player::hurt(int dmg) { 
     srand(time(0));
     int r = rand() % 2;
     if (r == 0) changeHP(-dmg);
+    return true;
 }

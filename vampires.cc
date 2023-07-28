@@ -1,7 +1,7 @@
-#include "vampire.h"
+#include "vampires.h"
 
 Vampire::Vampire(Map *p, int x, int y, std::string r):
-    player{p, x, y, 50, 25, 25, r} {}
+    Player{p, x, y, 50, 25, 25, r} {}
 
 void Vampire::changeHP(int amt) {
     cur_hp += amt;
@@ -9,8 +9,8 @@ void Vampire::changeHP(int amt) {
 }
 
 void Vampire::attack(Character *e) {
-    std::string er = e->get_race();
-    if (e->hurt(damage(getAtk(), pc->get_Def()))) {
+    std::string er = e->getRace();
+    if (e->hurt(damage(getAtk(), e->getDef()))) {
         if (er == "Dwarf") changeHP(-5);
         else changeHP(5);
     }

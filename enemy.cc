@@ -6,7 +6,7 @@ Enemy::Enemy(Map *p, int x, int y,
                Character{p, x, y, max_hp, atk, def, r}, pc{pc} {}
 
 void Enemy::attack() {
-    pc->hurt(damage(getAtk(), pc->getDef()), getRace());
+    pc->hurt(damage(getAtk(), pc->getDef()));
 }
 
 bool Enemy::hurt(int dmg) {

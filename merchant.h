@@ -3,16 +3,16 @@
 
 #include "enemy.h"
 #include "coc.h"
+using namespace std;
 
 class Merchant: public Enemy {
     ChamberOfCommerce *home;
     public:
-        Merchant(Map *p, int x, int y, Player *pc, ChamberOfCommerce *home);
+        Merchant(Map *p, int x, int y, Player *pc, const string r = "Merchant");
         void attack() override;
-        void hurt(int dmg) override;
+        bool hurt(int dmg) override;
         void call();
         bool isHostile();
         char charAt(int x, int y) override;
 };
-
 #endif

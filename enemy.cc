@@ -5,18 +5,21 @@ Enemy::Enemy(Map *p, int x, int y,
                int max_hp, Player *pc, std::string r): 
                Character{p, x, y, max_hp, atk, def, r}, pc{pc} {}
 
-void Enemy::attack() {
+bool Enemy::attack() {
+    if (dead()) return false;
     int px = pc->getX();
     int py = pc->getY();
     int x = getX();
     int y = getY();
     if ((x - 1) <= px && px <= (x + 1) && (y - 1) <= py && py <= (y + 1)) {
         pc->hurt(damage(getAtk(), pc->getDef()));
+        return true;
     }
+    return false;
 }
 
 bool Enemy::hurt(int dmg) {
-    changeHP(-dmg);
+    changeHP(-1 * dmg);
     return true;
 }
 

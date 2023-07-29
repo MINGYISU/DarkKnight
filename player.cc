@@ -48,7 +48,7 @@ void Player::drinkPot(string PotType) {
 
 int Player::getAtk() { return atk + CurEffect->changeAtk(); }
 
-int Player::getDef() { return atk + CurEffect->changeDef(); }
+int Player::getDef() { return def + CurEffect->changeDef(); }
 
 bool Player::hurt(int dmg) { 
     srand(time(0));

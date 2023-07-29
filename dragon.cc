@@ -8,7 +8,8 @@ char Dragon::charAt(int x, int y) {
     else return nextLayer->charAt(x, y);
 }
 
-void Dragon::attack() {
+bool Dragon::attack() {
+    if (dead()) return false;
     int px = pc->getX();
     int py = pc->getY();
     int x = getX();
@@ -17,5 +18,7 @@ void Dragon::attack() {
         ||((hoardXCor - 1) <= px && px <= (hoardXCor + 1)
         && (hoardYCor - 1) <= py && py <= (hoardYCor + 1))) { //player is arround dragon hoard
         pc->hurt(damage(getAtk(), pc->getDef())); //attack action
+        return true;
     }
+    return false;
 }

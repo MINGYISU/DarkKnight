@@ -3,7 +3,8 @@
 Elf::Elf(Map *p, int x, int y, Player *pc, std::string r):
     Enemy{p, x, y, 140, 30, 10, pc, r} {}
 
-void Elf::attack() {
+bool Elf::attack() {
+    if (dead()) return false;
     int px = pc->getX();
     int py = pc->getY();
     int x = getX();
@@ -15,7 +16,9 @@ void Elf::attack() {
             pc->hurt(damage(getAtk(), pc->getDef()));
             pc->hurt(damage(getAtk(), pc->getDef()));
         }
+        return true;
     }
+    return false;
 }
 
 char Elf::charAt(int x, int y) {

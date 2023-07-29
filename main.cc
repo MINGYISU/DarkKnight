@@ -47,17 +47,16 @@ using namespace std;
 
 
 
-bool movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string cmd, Player* player,
-                vector<MapPotion*>* listPot, vector<Gold*>* listGold, vector<Enemy*>* listEnemy){
+int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string cmd, Player* player,
+                vector<MapPotion*>* listPot, vector<Gold*>* listGold, vector<Enemy*>* listEnemy,
+                bool& attackYes, int& x, int& y){
     char out = ' ';
     int intendXCor = 0;
     int intendYCor = 0;
 
-    bool drinkPot = false;
 
     if(cmd[0] == 'u'){
         cmd = cmd.substr(2, 2);
-        drinkPot = true;
     }
 
 
@@ -91,9 +90,11 @@ bool movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string 
     //}
     else{
         cout << "请输入正确指令" << endl;
-        return true;
+        return 2;
     }
 
+    x = intendXCor;
+    y = intendYCor;
 
     out = w->picture()->charAt(intendXCor, intendYCor);
 
@@ -106,7 +107,7 @@ bool movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string 
     {
         player->move(intendXCor, intendYCor);
         //break;
-        return false;
+        return 0;
 
     }
     else if(out == 'G'){
@@ -128,7 +129,7 @@ bool movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string 
             }
         }
     }
-    else if(drinkPot){
+    else if(out == 'P'){
         for(int i = 0; i < listPot->size(); i++){
             if(listPot->at(i)->charAt(intendXCor, intendYCor) == 'P'){
                 //使用药水
@@ -136,6 +137,10 @@ bool movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string 
                 cout << "you drinked " << listPot->at(i)->getType() << endl;
             }
         }
+    } 
+    else if (out == 'H' || out == 'W' || out == 'E' || 
+             out == 'O' || out == 'M' || out == 'D' || out == 'L') {
+                attackYes = true; //able to use player attack function
     }
     else
     {
@@ -143,10 +148,46 @@ bool movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string 
     }
     
     
-    return true;
+    return 1;
+}
+
+void playerAttack(Window* w, vector<Enemy*>* listEnemy, Player* player, int intendXCor,
+                    int intendYCor){
+    for (int i = 0; i < 20; i++) {
+        Enemy *e = listEnemy->at(i);
+        if (e->getX() == intendXCor &&
+            e->getY() == intendYCor) {
+            player->attack(e);
+            cout << "You attacked " << e->getRace() << endl;
+            cout << e->getHP() << endl;
+            break;
+        }
+    }
+}
+
+void enemyAction(Window* w, vector<Enemy*>* enemyList){
+    for(int i = 0; i < enemyList->size(); i++){
+        if(!enemyList->at(i)->dead()){
+            bool attackYes = enemyList->at(i)->attack();
+            if(!attackYes){ //not attacking pc
+                enemyList->at(i)->move(w->picture());
+            }else{
+                cout << enemyList->at(i)->getRace() << " is attacking you!" << endl;
+            }
+        }
+    }
 }
 
 
+bool enemyLeftRightCompare(Enemy* e1, Enemy* e2){
+    if(e1->getX() < e2->getX()){
+        return true;
+    }else if(e1->getX() > e2->getX()){
+        return false;
+    }else{
+        return (e1->getY() < e2->getY());
+    }
+}
 
 
 int main()
@@ -154,7 +195,7 @@ int main()
     string Filename = "cc3k-emptySingleFloor.txt";
     string FilenameModified = "cc3k-emptySingleFloor-modified.txt";
 
-    Player* player = nullptr;
+    // Player* player = nullptr;
     //store the player information
     string playerChoice = "Shade";
     cout << "你想选择什么角色？" << endl;
@@ -308,7 +349,7 @@ int main()
             listEnemy.push_back(enemy);
             w.picture() = enemy;
         }
-
+        sort(listEnemy.begin(), listEnemy.end(), enemyLeftRightCompare);
         w.display();
 
 
@@ -327,14 +368,27 @@ int main()
             int currentPlayerXCor = player->getX();
             int currentPlayerYCor = player->getY();
             //cout << currentPlayerXCor << " " << currentPlayerYCor << endl;
-
-            if (movePlayer(&w, currentPlayerXCor, currentPlayerYCor, cmd, player, &listPot, &listGold, &listEnemy)){
+            bool attackYes = false; //player always init attack as false
+            int intendx = 0;
+            int intendy = 0;
+            int action = movePlayer(&w, currentPlayerXCor, currentPlayerYCor, cmd, player, 
+                                    &listPot, &listGold, &listEnemy, attackYes, intendx, intendy);
+            if (action == 1){
+                enemyAction(&w, &listEnemy);
                 cout << player->getRace() << endl;
-                cout << "gold: " << player->getAsset() << endl;
-            }else{ // next for loop
+                cout << "Player gold: " << player->getAsset() << endl;
+                cout << "Player HP: " << player->getHP() << endl;
+                if(attackYes){
+                    playerAttack(&w, &listEnemy, player, intendx, intendy);
+                }
+            }else if(action == 2){
+                //no move
+            }else if(action == 0){ // next for loop, next layer
                 playerAsset += player->getAsset();
                 break;
             }
+
+
 
             w.display();
         }

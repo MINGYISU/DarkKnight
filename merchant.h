@@ -9,7 +9,7 @@ class Merchant: public Enemy {
     ChamberOfCommerce *home;
     public:
         Merchant(Map *p, int x, int y, Player *pc, const string r = "Merchant");
-        void attack() override;
+        bool attack() override;
         bool hurt(int dmg) override;
         void call();
         bool isHostile();

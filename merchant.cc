@@ -8,14 +8,17 @@ void Merchant::call() { home->warning(); } // notify the chamber of commerce
 
 bool Merchant::isHostile() { return home->wanted(); }
 
-void Merchant::attack() {
+bool Merchant::attack() {
+    if (dead()) return false;
     int px = pc->getX();
     int py = pc->getY();
     int x = getX();
     int y = getY();
     if ((x - 1) <= px && px <= (x + 1) && (y - 1) <= py && py <= (y + 1)) {
         if (isHostile()) pc->hurt(damage(getAtk(), pc->getDef()));
+        return true;
     }
+    return false;
 }
 
 bool Merchant::hurt(int dmg) {

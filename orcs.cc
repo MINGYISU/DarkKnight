@@ -8,11 +8,21 @@ char Orcs::charAt(int x, int y) {
     else return nextLayer->charAt(x, y);
 }
 
-void Orcs::attack(){
-    int d = damage(getAtk(), pc->getDef());
-    if(pc->getRace() == "Goblin"){
-        d = d * 3 / 2;
+bool Orcs::attack(){
+    if (dead()) return false;
+    int px = pc->getX();
+    int py = pc->getY();
+    int x = getX();
+    int y = getY();
+    
+    if (((x - 1) <= px) && (px <= (x + 1)) && ((y - 1) <= py) && (py <= (y + 1))){
+        int d = damage(getAtk(), pc->getDef());
+        if(pc->getRace() == "Goblin"){
+            d = d * 3 / 2;
+        }
+        pc->hurt(d);
+        return true;
     }
-    pc->hurt(d);
+    return false;
 }
 

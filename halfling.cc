@@ -8,7 +8,7 @@ bool Halfling::hurt(int dmg) {
     srand(time(0));
     int r = rand() % 2;
     if (r == 0) {   // player may miss the attack
-        pc->changeHP(-dmg);
+        changeHP(-dmg);
         return true;
     } else return false;
 }

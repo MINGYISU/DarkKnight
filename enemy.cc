@@ -35,6 +35,9 @@ string Enemy::randDir(Map *m, int gox, int goy) {
 }
 
 void Enemy::move(Map *m) {
+    int px{pc->getX()}, py{pc->getY()};
+    if (px >= getX() - 1 && py >= getY() - 1 && 
+        px <= getX() + 1 && py <= getY() + 1) { return ; }
     string dir = randDir(m, xCor, yCor);
     if (dir == "no") yCor -= 1;
     else if (dir == "so") yCor += 1;

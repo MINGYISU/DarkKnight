@@ -5,6 +5,6 @@
 
 class Troll: public Player {
     public:
-        Troll(Map *p, int x, int y, std::string r = "Troll");
+        Troll(Map *p, int x, int y, int a, std::string r = "Troll");
 };
 #endif

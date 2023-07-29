@@ -16,7 +16,7 @@ class Character: public Decorator {
 
     public:
         Character(Map *p, int x, int y, int cur_hp,
-                  int atk, int def, string r);
+                  int atk, int def, const string r);
         ~Character();
         bool toPrint();
         // void setPrint(bool printOrNot);

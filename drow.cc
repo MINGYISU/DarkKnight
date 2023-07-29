@@ -1,7 +1,7 @@
 #include "drow.h"
 
-Drow::Drow(Map *p, int x, int y, std::string r):
-    Player{p, x, y, 150, 25, 15, r} {}
+Drow::Drow(Map *p, int x, int y, int a, std::string r):
+    Player{p, x, y, 150, 25, 15, r, a} {}
 
 int Drow::getAtk() { getAtk() + CurEffect->changeAtk() * 3 / 2; }
 

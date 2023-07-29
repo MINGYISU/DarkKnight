@@ -4,7 +4,7 @@ using namespace std;
 std::string Character::getRace() { return race; }
 
 Character::Character(Map *p, int x, int y, 
-                    int cur_hp, int atk, int def, string r):
+                    int cur_hp, int atk, int def, const string r):
     Decorator{p}, xCor{x}, yCor{y},
     cur_hp{cur_hp}, atk{atk}, def{def}, race{r} {}
 

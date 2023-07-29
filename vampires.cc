@@ -1,7 +1,7 @@
 #include "vampires.h"
 
-Vampire::Vampire(Map *p, int x, int y, std::string r):
-    Player{p, x, y, 50, 25, 25, r} {}
+Vampire::Vampire(Map *p, int x, int y, int a, std::string r):
+    Player{p, x, y, 50, 25, 25, r, a} {}
 
 void Vampire::changeHP(int amt) {
     cur_hp += amt;

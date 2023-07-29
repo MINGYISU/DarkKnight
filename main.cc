@@ -15,8 +15,31 @@
 
 
 #include "vampires.h"
+#include "shade.h"
+#include "goblin.h"
+#include "troll.h"
+#include "drow.h"
 #include "player.h"
 #include "character.h"
+
+#include "enemy.h"
+#include "coc.h"
+#include "dwarf.h"
+#include "elf.h"
+#include "halfling.h"
+#include "human.h"
+#include "merchant.h"
+#include "orcs.h"
+
+
+#include "PotDeco.h"
+#include "PotEffect.h"
+#include "WA.h"
+#include "WD.h"
+#include "BA.h"
+#include "BD.h"
+#include "Water.h"
+
 
 
 using namespace std;
@@ -25,7 +48,7 @@ using namespace std;
 
 
 bool movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string cmd, Player* player,
-                vector<MapPotion*>* listPot, vector<Gold*>* listGold){
+                vector<MapPotion*>* listPot, vector<Gold*>* listGold, vector<Enemy*>* listEnemy){
     char out = ' ';
     int intendXCor = 0;
     int intendYCor = 0;
@@ -95,10 +118,12 @@ bool movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string 
                     listGold->at(i)->setPrint(false);
                     player->move(intendXCor, intendYCor);
                     cout << "this is dragon hoard!" << endl;
+                    player->gain(6);
                 }else{
                     listGold->at(i)->setPrint(false);
                     player->move(intendXCor, intendYCor);
                     cout << "you picked up " << listGold->at(i)->getAmount() << " gold" << endl;
+                    player->gain(listGold->at(i)->getAmount());
                 }
             }
         }
@@ -126,20 +151,29 @@ bool movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string 
 
 int main()
 {
-    cout << "开始啦" << endl;
     string Filename = "cc3k-emptySingleFloor.txt";
     string FilenameModified = "cc3k-emptySingleFloor-modified.txt";
 
+    Player* player = nullptr;
+    //store the player information
+    string playerChoice = "Shade";
+    cout << "你想选择什么角色？" << endl;
+    cout << "Shade, Vampire, Goblin, Drow, Troll?" << endl;
+    getline(cin, playerChoice);
+    int playerAsset = 0;
+    //string nonsence = "";
+    //getline(cin, nonsence);
+
     for (int i = 0; i < 5; i++)
     {
-        if(i >= 0){
+        if(i > 0){
             cout << (i+1) << "'s floor!!!!!" << endl;
         }
         // FLOOR BUILDING STAGE!!!
         vector<Chamber *> listChamber; // 这些可能会有memo error
         vector<MapPotion*> listPot; 
         vector<Gold*> listGold;
-        // vector<Enemy*> listEnemy;
+        vector<Enemy*> listEnemy;
 
         // init the map
         Map *Layer1 = new Blank;
@@ -163,29 +197,38 @@ int main()
         listChamber.push_back(newptr5);
         w.picture() = newptr5;
 
-        w.display();
-
-        // for (int i = 0; i < 5; i++)
-        //{ // spawning
-        //     int x = 0;
-        //     int y = 0;
-        //     listChamber.at(i)->spawnCoordinate(x, y);
-        //     cout << x << " " << y << endl;
-        //  listChamber.at(i)->printUsedSpawningPlace();
-        //}
-
 
 
 
         // RANDOM GENERATION STAGE!
         // generate the player
         // 1. randomly choose 1 chamber,
-        srand(time(0)); 
+        srand(time(0));
         int randomChamberIndex = rand() % 5;
+        int playerChamberIndex = randomChamberIndex;
         int xCorPlayer = 0;
         int yCorPlayer = 0;
         listChamber.at(randomChamberIndex)->spawnCoordinate(xCorPlayer, yCorPlayer);
-        Player* player = new Vampire(w.picture(), xCorPlayer, yCorPlayer);
+        Player *player = new Shade(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Shade");
+        if(playerChoice == "Shade"){
+            cout << "you are shade" << endl;
+            player = new Shade(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Shade");
+        }else if(playerChoice == "Vampire"){
+            cout << "you are vampire" << endl;
+            player = new Vampire(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Vampire");
+        }else if(playerChoice == "Goblin"){
+            cout << "you are goblin" << endl;
+            player = new Goblin(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Goblin");
+        }else if(playerChoice == "Drow"){
+            cout << "you are drow" << endl;
+            player = new Drow(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Drow");
+        }else if(playerChoice == "Troll"){
+            cout << "you are troll" << endl;
+            player = new Troll(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Troll");
+        }else{
+            cout << "别瞎选了，你就当shade得了" << endl;
+            //Player *player = new Shade(w.picture(), xCorPlayer, yCorPlayer);
+        }
         w.picture() = player;
         //w.display();
         // call player ctor at that random place
@@ -194,7 +237,12 @@ int main()
         int xCorStair = 0;
         int yCorStair = 0;
         //srand(time(0));
-        randomChamberIndex = rand() % 5;
+        while(true){
+            randomChamberIndex = rand() % 5;
+            if(randomChamberIndex != playerChamberIndex){ //ensure stair and player is not in the same
+                break;
+            }
+        }
         listChamber.at(randomChamberIndex)->spawnCoordinate(xCorStair, yCorStair);
         Stair* stair = new Stair(w.picture(), xCorStair, yCorStair);
         w.picture() = stair;
@@ -235,7 +283,31 @@ int main()
         }
 
         //generate the enemy
-
+        int arrEnemyName[18] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
+        int lengthArrEnemyName = sizeof(arrEnemyName) / sizeof(arrEnemyName[0]);
+        for(int i = 0; i < 20; i++){
+            int xCorEnemy = 0;
+            int yCorEnemy = 0;
+            randomChamberIndex = rand() % 5;
+            listChamber.at(randomChamberIndex)->spawnCoordinate(xCorEnemy, yCorEnemy);
+            int randomEnemyName = arrEnemyName[rand() % lengthArrEnemyName];
+            Enemy* enemy = nullptr;
+            if((1 <= randomEnemyName) && (randomEnemyName <= 4)){ // 4/18 = 2/9
+                enemy = new Human(w.picture(), xCorEnemy, yCorEnemy, player);
+            }else if((5 <= randomEnemyName) && (randomEnemyName <= 9)){ // 5/18
+                enemy = new Halfling(w.picture(), xCorEnemy, yCorEnemy, player);
+            }else if(((10 <= randomEnemyName) && (randomEnemyName <= 11))){ // 2/18 = 1/9
+                enemy = new Elf(w.picture(), xCorEnemy, yCorEnemy, player);
+            }else if(((12 <= randomEnemyName) && (randomEnemyName <= 13))){ // 2/18 = 1/9
+                enemy = new Orcs(w.picture(), xCorEnemy, yCorEnemy, player);
+            }else if(((14 <= randomEnemyName) && (randomEnemyName <= 15))){ // 2/18 = 1/9
+                enemy = new Merchant(w.picture(), xCorEnemy, yCorEnemy, player);
+            }else if(((16 <= randomEnemyName) && (randomEnemyName <= 18))){ //3/18 = 1/6
+                enemy = new Dwarf(w.picture(), xCorEnemy, yCorEnemy, player);
+            }
+            listEnemy.push_back(enemy);
+            w.picture() = enemy;
+        }
 
         w.display();
 
@@ -250,14 +322,17 @@ int main()
             cout << "ne for northeast, nw for northwest, se for southeast, sw for southwest" << endl;
             //cout << "u direction to drink potion, there is a blank between!" << endl;
 
+
             getline(cin, cmd);
             int currentPlayerXCor = player->getX();
             int currentPlayerYCor = player->getY();
             //cout << currentPlayerXCor << " " << currentPlayerYCor << endl;
 
-            if (movePlayer(&w, currentPlayerXCor, currentPlayerYCor, cmd, player, &listPot, &listGold)){
-
+            if (movePlayer(&w, currentPlayerXCor, currentPlayerYCor, cmd, player, &listPot, &listGold, &listEnemy)){
+                cout << player->getRace() << endl;
+                cout << "gold: " << player->getAsset() << endl;
             }else{ // next for loop
+                playerAsset += player->getAsset();
                 break;
             }
 

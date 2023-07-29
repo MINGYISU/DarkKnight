@@ -18,7 +18,7 @@ class Player: public Character {
     
     public:
         Player(Map *p, int x, int y, int max_hp, 
-                int atk, int def, std::string r);
+                int atk, int def, std::string r, int a = 0);
         char charAt(int x, int y) override;
         virtual void attack(Character *e);
         void changeHP(int amt) override;
@@ -27,6 +27,7 @@ class Player: public Character {
         bool hurt(int dmg) override;
         virtual int getAtk();
         virtual int getDef();
+        int getAsset();
 };
 
 #endif

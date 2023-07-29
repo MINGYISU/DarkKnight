@@ -1,9 +1,9 @@
 #include "player.h"
 
 Player::Player(Map *p, int x, int y, int max_hp,
-               int atk, int def, std::string r): 
+               int atk, int def, std::string r, int a): 
                Character{p, x, y, max_hp, atk, def, r},
-               max_hp{max_hp}, asset{0} {
+               max_hp{max_hp}, asset{a} {
                 CurEffect = new Water;
                }
 
@@ -56,3 +56,9 @@ bool Player::hurt(int dmg) {
     if (r == 0) changeHP(-dmg);
     return true;
 }
+
+
+int Player::getAsset() {
+    return asset;
+}
+

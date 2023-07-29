@@ -6,7 +6,13 @@ Enemy::Enemy(Map *p, int x, int y,
                Character{p, x, y, max_hp, atk, def, r}, pc{pc} {}
 
 void Enemy::attack() {
-    pc->hurt(damage(getAtk(), pc->getDef()));
+    int px = pc->getX();
+    int py = pc->getY();
+    int x = getX();
+    int y = getY();
+    if ((x - 1) <= px && px <= (x + 1) && (y - 1) <= py && py <= (y + 1)) {
+        pc->hurt(damage(getAtk(), pc->getDef()));
+    }
 }
 
 bool Enemy::hurt(int dmg) {

@@ -14,6 +14,6 @@ bool Halfling::hurt(int dmg) {
 }
 
 char Halfling::charAt(int x, int y) {
-    if (x == getX() && y == getY()) return 'L';
+    if (!dead() && x == getX() && y == getY()) return 'L';
     else return nextLayer->charAt(x, y);
 }

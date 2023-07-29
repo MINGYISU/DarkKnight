@@ -19,6 +19,6 @@ void Elf::attack() {
 }
 
 char Elf::charAt(int x, int y) {
-    if (x == getX() && y == getY()) return 'E';
+    if (!dead() && x == getX() && y == getY()) return 'E';
     else return nextLayer->charAt(x, y);
 }

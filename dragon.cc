@@ -4,7 +4,7 @@ Dragon::Dragon(Map *p, int x, int y, Player *pc, int hx, int hy, std::string r):
     Enemy{p, x, y, 150, 20, 20, pc, r}, hoardXCor{hx}, hoardYCor{hy} {}
 
 char Dragon::charAt(int x, int y) {
-    if (x == getX() && y == getY()) return 'D';
+    if (!dead() && x == getX() && y == getY()) return 'D';
     else return nextLayer->charAt(x, y);
 }
 

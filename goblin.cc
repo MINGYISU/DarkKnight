@@ -9,8 +9,3 @@ void Goblin::attack(Character *e) {
     }
 }
 
-//void Goblin::hurt(int dmg, std::string e) {
-//    if (enemy == "Orcs") dmg * 3 / 2;
-//    changeHP(-dmg);
-//    return true;
-//}

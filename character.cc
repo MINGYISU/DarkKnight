@@ -1,4 +1,6 @@
 #include "character.h"
+#include <cmath>
+
 using namespace std;
 
 std::string Character::getRace() { return race; }
@@ -11,7 +13,7 @@ Character::Character(Map *p, int x, int y,
 Character::~Character() { }
 
 int Character::damage(int atker, int defer) {
-  double damage = (100 / (100 + defer)) * atker;
+  double damage = (100.0 / (100 + defer)) * atker;
   return std::ceil(damage);
 }
 

@@ -3,6 +3,7 @@
 
 #include "character.h"
 #include "player.h"
+#include <vector>
 
 class Enemy: public Character {
     char getCharAt(Map *m, int x, int y);

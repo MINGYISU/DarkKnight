@@ -13,7 +13,13 @@ char Player::charAt(int x, int y) {
 }
 
 void Player::attack(Character *e) { 
-    bool result = e->hurt(damage(getAtk(), e->getDef())); 
+    if (e->hurt(damage(getAtk(), e->getDef()))) {
+        std::string er = e->getRace();
+        if (e->dead() && er != "Human" && er != "Dragon" && er != "Merchant") {
+            srand(time(0));
+            if (dead()) gain(rand() % 2 + 1);
+        }
+    }
 }
 
 void Player::gain(int amt) { asset += amt; }

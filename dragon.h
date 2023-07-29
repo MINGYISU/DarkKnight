@@ -7,6 +7,7 @@ class Dragon: public Enemy {
     public:
         Dragon(Map *p, int x, int y, Player *pc, std::string r = "Dragon");
         char charAt(int x, int y) override;
-}
+        void move(Map *p) override;
+};
 
 #endif

@@ -7,3 +7,6 @@ char Dragon::charAt(int x, int y) {
     if (x == getX() && y == getY()) return 'D';
     else return nextLayer->charAt(x, y);
 }
+
+void Dragon::move(Map *p) { }
+

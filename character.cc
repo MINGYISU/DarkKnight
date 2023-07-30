@@ -14,7 +14,7 @@ Character::~Character() { }
 
 int Character::damage(int atker, int defer) {
   double damage = (100.0 / (100 + defer)) * atker;
-  cout << race << " D " << damage << endl; 
+  cout << race << "a " << atker << "d " << defer << "D " << damage << endl; 
   return std::ceil(damage);
 }
 

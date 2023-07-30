@@ -11,7 +11,7 @@ class Enemy: public Character {
     protected:
         Player *pc;
     public:
-        Enemy(Map *p, int x, int y, int atk, int def, int max_hp, Player *pc, std::string r);
+        Enemy(Map *p, int x, int y, int max_hp, int atk, int def, Player *pc, std::string r);
         virtual bool attack();
         virtual bool hurt(int dmg);
         virtual void move(Map *m);

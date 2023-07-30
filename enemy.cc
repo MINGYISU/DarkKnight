@@ -1,8 +1,8 @@
 #include "enemy.h"
 
 Enemy::Enemy(Map *p, int x, int y,
-               int atk, int def,
-               int max_hp, Player *pc, std::string r): 
+               int max_hp, int atk,
+               int def, Player *pc, std::string r): 
                Character{p, x, y, max_hp, atk, def, r}, pc{pc} {}
 
 bool Enemy::attack() {

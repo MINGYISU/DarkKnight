@@ -46,15 +46,26 @@ void Player::drinkPot(string PotType) {
     }
 }
 
-int Player::getAtk() { return atk + CurEffect->changeAtk(); }
+int Player::getAtk() { 
+    int a = atk + CurEffect->changeAtk();
+    if (a < 0) return 0;
+    else return a;
+}
 
-int Player::getDef() { return def + CurEffect->changeDef(); }
+int Player::getDef() { 
+    int d = atk + CurEffect->changeAtk();
+    if (d < 0) return 0;
+    else return d; 
+}
 
 bool Player::hurt(int dmg) { 
     srand(time(0));
-    int r = rand() % 2;
-    if (r == 0) changeHP(-dmg);
-    return true;
+    if (rand() % 2 == 0) {
+        changeHP(-dmg);
+        return true;
+    } else {
+        return false;
+    }
 }
 
 

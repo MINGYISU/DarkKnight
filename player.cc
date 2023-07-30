@@ -22,7 +22,10 @@ void Player::attack(Character *e) {
     }
 }
 
-void Player::gain(int amt) { asset += amt; }
+void Player::gain(int amt) { 
+    if (asset + amt < 0) return ;
+    else asset += amt;
+}
 
 void Player::changeHP(int amt) {
     cur_hp += amt;

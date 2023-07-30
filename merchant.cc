@@ -41,15 +41,36 @@ void Merchant::purchase() {
     int input;
     string pot;
     cin >> input;
-    if (pc->getAsset() < 3) { 
-        cout << "NOT ENOUGH MOENY!"; 
+    pot = home->getAt(input);
+    if (pot == "INVALID") { 
         return ;
     }
-    pot = home->sell(input);
-    if (pot == "INVALID") { purchase(); }
-    if (pot == "RH") pc->gain(-3);
-    else if (pot == "BD") pc->gain(-5);
-    else pc->gain(-10);
+    if (pot == "RH") {
+        if (pc->getAsset() < 1) { 
+            cout << "NOT ENOUGH MONEY";
+            return ;
+        } else {
+            pc->gain(-1);
+            home->sell(input);
+        }
+    } else if (pot == "BD") 
+        if (pc->getAsset() < 3) { 
+            cout << "NOT ENOUGH MONEY";
+            return ;
+        }
+        else {
+            pc->gain(-3);
+            home->sell(input);
+        }
+    else {
+        if (pc->getAsset() < 5) { 
+            cout << "NOT ENOUGH MONEY";
+            return ;
+        } else {
+            pc->gain(-5);
+            home->sell(input);
+        }
+    }
     pc->drinkPot(pot);
     cout << "You Bought " << pot;
 }

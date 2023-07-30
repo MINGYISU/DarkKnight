@@ -21,8 +21,9 @@ class ChamberOfCommerce {
         void warning();
         bool wanted();
         int getSize();
-        std::string sell(int which);
-        std::string display();
+        string getAt(int which);
+        void sell(int which);
+        string display();
 };
 
 #endif

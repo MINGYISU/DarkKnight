@@ -25,15 +25,18 @@ void ChamberOfCommerce::refreshStore() {
     }
 }
 
-std::string ChamberOfCommerce::sell(int which) {
+std::string ChamberOfCommerce::getAt(int which) {
     if (which < 0 || which > store.size()) return "INVALID";
-    std::string pot = store.at(which);
+    return store.at(which);
+}
+
+void ChamberOfCommerce::sell(int which) {
+    if (which < 0 || which > store.size()) return ;
     store.erase(store.begin() + which);
-    return pot;
 }
 
 std::string ChamberOfCommerce::display() {
-    std::string s{"PRICE: RH-3 BD-5 BA-10\nTODAY'S NEW: "};
+    std::string s{"PRICE: RH-1 BD-3 BA-5\nTODAY'S NEW: "};
     for (int i = 0; i < store.size(); ++i) {
         std::ostringstream oss;
         oss << i;

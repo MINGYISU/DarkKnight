@@ -45,18 +45,18 @@
 using namespace std;
 
 
-
-
 int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string cmd, Player* player,
                 vector<MapPotion*>* listPot, vector<Gold*>* listGold, vector<Enemy*>* listEnemy,
                 bool& attackYes, int& x, int& y){
     char out = ' ';
     int intendXCor = 0;
     int intendYCor = 0;
+    bool drinkPot = false;
 
 
     if(cmd[0] == 'u'){
         cmd = cmd.substr(2, 2);
+        drinkPot = true;
     }
 
 
@@ -99,7 +99,7 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
     out = w->picture()->charAt(intendXCor, intendYCor);
 
 
-    if ((out == '.') || (out == '+') || (out == '#'))
+    if (((out == '.') || (out == '+') || (out == '#')) && (!drinkPot))
     {
         player->move(intendXCor, intendYCor);
     }
@@ -110,7 +110,7 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
         return 0;
 
     }
-    else if(out == 'G'){
+    else if((out == 'G') && (!drinkPot)){
         for (int i = 0; i < listGold->size(); i++)
         {
             if(listGold->at(i)->charAt(intendXCor, intendYCor) == 'G'){
@@ -129,17 +129,23 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
             }
         }
     }
-    else if(out == 'P'){
+    else if(drinkPot){
+        bool didDrink = false;
         for(int i = 0; i < listPot->size(); i++){
             if(listPot->at(i)->charAt(intendXCor, intendYCor) == 'P'){
                 //使用药水
                 listPot->at(i)->setPrint(false);
                 cout << "you drinked " << listPot->at(i)->getType() << endl;
+                didDrink = true;
             }
         }
+        if(!didDrink){
+            cout << "你没喝药为啥摁u???" << endl;
+            return 2;
+        }
     } 
-    else if (out == 'H' || out == 'W' || out == 'E' || 
-             out == 'O' || out == 'M' || out == 'D' || out == 'L') {
+    else if ((out == 'H' || out == 'W' || out == 'E' || 
+             out == 'O' || out == 'M' || out == 'D' || out == 'L') && (!drinkPot)) {
                 attackYes = true; //able to use player attack function
     }
     else
@@ -150,6 +156,8 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
     
     return 1;
 }
+
+
 
 void playerAttack(Window* w, vector<Enemy*>* listEnemy, Player* player, int intendXCor,
                     int intendYCor){

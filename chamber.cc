@@ -55,21 +55,9 @@ void Chamber::spawnCoordinate(int& x, int& y){
     }
 }
 
-/*
-void Chamber::printUsedSpawningPlace(){
-    for(int i = 0; i < FLOORHEIGHT; i++){
-        for(int j = 0; j < FLOORWIDTH; j++){
-            if(usedSpawnPlace[i][j] == 0){
-                cout << " ";
-            }else{
-                cout << "1";
-            }
-        }
-        cout << "" << endl;
-    }
+void Chamber::useSpawnCoordinate(int x, int y){
+    usedSpawnPlace[y][x] = 0;
 }
-*/
-
 
 Chamber::~Chamber(){}
 

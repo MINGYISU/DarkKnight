@@ -28,6 +28,7 @@ class Player: public Character {
         virtual int getAtk();
         virtual int getDef();
         int getAsset();
+        void setHP(int hp);
 };
 
 #endif

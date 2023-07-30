@@ -19,3 +19,8 @@ char Gold::charAt(int x, int y)
         return nextLayer->charAt(x, y);
     }
 }
+
+bool Gold::getPickability() {
+    return true;
+}
+

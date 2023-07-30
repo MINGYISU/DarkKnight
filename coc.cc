@@ -10,16 +10,18 @@ void ChamberOfCommerce::warning() { manhunt = true; } // A merchant was attacked
 bool ChamberOfCommerce::wanted() { return manhunt; }
 
 std::string ChamberOfCommerce::randPot() {
-    int prob[6] = {0, 1, 2, 3, 4, 5};
-    srand(time(0));
-    if (rand() % 6 == 0) return "BA";
-    else if (1 == rand() % 6 || rand() % 6 == 2) return "BD";
+    int ran = rand() % 6;
+    if (ran == 0) return "BA";
+    else if (1 == ran || ran == 2) return "BD";
     else return "RH";
 }
 
 void ChamberOfCommerce::refreshStore() {
+    srand(time(0));
     for (int i = store.size(); i < 5; ++i) {
-        store.push_back(randPot());
+        string pt = randPot();
+        cout << pt << endl;
+        store.push_back(pt);
     }
 }
 

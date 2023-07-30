@@ -10,7 +10,7 @@ class DragonHoard: public Gold {
     public:
         DragonHoard(Map *m, int x, int y); //constructor, I (shi) added the Map *m back in
         void setResidence(Dragon *d);
-        bool getPickability(); // check is Dragon dead? and change its pickability field accordingly
+        bool getPickability() override; // check is Dragon dead? and change its pickability field accordingly
         //void setPickability(); // change the pickability field
         void attack();
 };

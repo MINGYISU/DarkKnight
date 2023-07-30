@@ -41,12 +41,12 @@ void Merchant::purchase() {
     int input;
     string pot;
     cin >> input;
-    pot = home->sell(input);
-    if (pot == "INVALID") { purchase(); }
     if (pc->getAsset() < 3) { 
         cout << "NOT ENOUGH MOENY!"; 
         return ;
     }
+    pot = home->sell(input);
+    if (pot == "INVALID") { purchase(); }
     if (pot == "RH") pc->gain(-3);
     else if (pot == "BD") pc->gain(-5);
     else pc->gain(-10);

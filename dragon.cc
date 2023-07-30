@@ -22,3 +22,7 @@ bool Dragon::attack() {
     }
     return false;
 }
+
+
+void Dragon::move(Map *m) { }
+

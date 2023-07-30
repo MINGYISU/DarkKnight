@@ -13,5 +13,6 @@ public:
     Gold(Map *p, int x, int y, int a = 0);
     char charAt(int x, int y) override;
     int getAmount();
+    virtual bool getPickability();
 };
 #endif

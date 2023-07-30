@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+using namespace std;
+
 class ChamberOfCommerce {
     bool manhunt;
     std::vector<std::string> store;

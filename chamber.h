@@ -21,6 +21,7 @@ class Chamber: public Decorator{//abstract class, have 5 subclass
     Chamber(Map* p, int yMax, int yMin, int xMin, int xMax, string Filename);
     char charAt(int xCor, int yCor) override;
     void spawnCoordinate(int& x, int& y);
+    void useSpawnCoordinate(int x, int y);
     //only return a random coordinate
     //the real ctor is run in main func
     //void printUsedSpawningPlace();

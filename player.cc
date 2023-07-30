@@ -53,7 +53,7 @@ int Player::getAtk() {
 }
 
 int Player::getDef() { 
-    int d = atk + CurEffect->changeAtk();
+    int d = def + CurEffect->changeDef();
     if (d < 0) return 0;
     else return d; 
 }
@@ -73,3 +73,6 @@ int Player::getAsset() {
     return asset;
 }
 
+void Player::setHP(int hp) {
+    cur_hp = hp;
+}

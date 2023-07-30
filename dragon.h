@@ -10,6 +10,7 @@ class Dragon: public Enemy {
         Dragon(Map *p, int x, int y, Player *pc, int hx, int hy, std::string r = "Dragon");
         char charAt(int x, int y) override;
         bool attack() override;
+        void move(Map *m) override;
 };
 
 #endif

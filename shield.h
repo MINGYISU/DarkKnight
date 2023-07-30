@@ -9,5 +9,5 @@ class Shield: public Equipment {
     int cAtk() override;
     int cDef() override;
     const string itemName() override;
-}
+};
 #endif

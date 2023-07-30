@@ -13,6 +13,6 @@ int Sword::cDef() {
 }
 
 const string Sword::itemName() {
-    const string s = "Sword"
+    const string s = "Sword";
     return s;
 }

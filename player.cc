@@ -1,10 +1,9 @@
 #include "player.h"
 
-Player::Player(Map *p, int x, int y,
-               int atk, int def,
-               int max_hp): 
-               Character{p, x, y, max_hp, atk, def},
-               max_hp{max_hp}, gold{0} {
+Player::Player(Map *p, int x, int y, int max_hp,
+               int atk, int def, std::string r, int a): 
+               Character{p, x, y, max_hp, atk, def, r},
+               max_hp{max_hp}, asset{a} {
                 CurEffect = new Water;
                }
 
@@ -14,7 +13,13 @@ char Player::charAt(int x, int y) {
 }
 
 void Player::attack(Character *e) { 
-    bool result = e->hurt(damage(getAtk(), e->getDef())); 
+    if (e->hurt(damage(getAtk(), e->getDef()))) {
+        std::string er = e->getRace();
+        if (e->dead() && er != "Human" && er != "Dragon" && er != "Merchant") {
+            srand(time(0));
+            if (dead()) gain(rand() % 2 + 1);
+        }
+    }
 }
 
 void Player::gain(int amt) { asset += amt; }
@@ -41,12 +46,36 @@ void Player::drinkPot(string PotType) {
     }
 }
 
-int getAtk() { return atk + CurEffect->changeAtk(); }
-
-int getDef() { return def + CurEffect->changeDef(); }
-
-void Player::hurt(int dmg, std::string et) { 
-    srand(time(0));
-    int r = rand() % 2;
-    if (r == 0) changeHP(-dmg);
+int Player::getAtk() { 
+    int a = atk + CurEffect->changeAtk() + CurEquip->cAtk();// added Equipment (Jeannie)
+    if (a < 0) return 0;
+    else return a;
 }
+
+int Player::getDef() { 
+    int d = atk + CurEffect->changeAtk() + CurEquip->cDef();// added Equipment (Jeannie)
+    if (d < 0) return 0;
+    else return d; 
+}
+
+bool Player::hurt(int dmg) { 
+    srand(time(0));
+    if (rand() % 2 == 0) {
+        changeHP(-dmg);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+int Player::getAsset() {
+    return asset;
+}
+
+//new below
+void Player::changeEquip(Equipment* inHands, Equipment* onGround) {
+    swap(inHands, onGround);
+    CurEquip = onGround;
+}
+//new above

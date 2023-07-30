@@ -25,3 +25,9 @@ void Pickable::setPrint(bool b)
 
 char Pickable::charAt(int x, int y) {}
 
+void Pickable::swap(Pickable* inHands, Pickable* onGround) {
+    inHands->xCor = onGround->xCor;
+    inHands->yCor = onGround->yCor;
+    inHands->toprint = true;
+    onGround->toprint = false;
+}

@@ -13,6 +13,6 @@ int Shield::cDef() {
 }
 
 const string Shield::itemName() {
-    const string s = "Shield"
+    const string s = "Shield";
     return s;
 }

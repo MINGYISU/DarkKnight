@@ -15,6 +15,9 @@ public:
     int getY();
     bool toPrint();
     void setPrint(bool b);
+    //new
+    void swap(Pickable* inHands, Pickable* onGround);
+    //new ablove 
 };
 
 #endif

@@ -10,5 +10,6 @@ class Equipment: public Pickable {
     virtual int cAtk() = 0;
     virtual int cDef() = 0;
     virtual const string itemName() = 0;
+    char charAt(int x, int y) override;
 };
 #endif

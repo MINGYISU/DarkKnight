@@ -52,11 +52,15 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
     int intendXCor = 0;
     int intendYCor = 0;
     bool drinkPot = false;
+    bool trade = false;
 
 
     if(cmd[0] == 'u'){
         cmd = cmd.substr(2, 2);
         drinkPot = true;
+    } else if (cmd[0] == 't') {
+        cmd = cmd.substr(2, 2);
+        trade = true;
     }
 
 
@@ -99,7 +103,7 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
     out = w->picture()->charAt(intendXCor, intendYCor);
 
 
-    if (((out == '.') || (out == '+') || (out == '#')) && (!drinkPot))
+    if (((out == '.') || (out == '+') || (out == '#')) && (!drinkPot) && (!trade))
     {
         player->move(intendXCor, intendYCor);
     }
@@ -110,7 +114,7 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
         return 0;
 
     }
-    else if((out == 'G') && (!drinkPot)){
+    else if((out == 'G') && (!drinkPot) && (!trade)){
         for (int i = 0; i < listGold->size(); i++)
         {
             if(listGold->at(i)->charAt(intendXCor, intendYCor) == 'G'){
@@ -129,7 +133,7 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
             }
         }
     }
-    else if(drinkPot){
+    else if(drinkPot && (!trade)){
         bool didDrink = false;
         for(int i = 0; i < listPot->size(); i++){
             if(listPot->at(i)->charAt(intendXCor, intendYCor) == 'P'){
@@ -144,6 +148,26 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
             return 2;
         }
     } 
+    else if (trade) {
+        if (out != 'M') {
+            cout << "不是商人你买个屁的东西， 傻逼";
+        } else {
+            Merchant *m = nullptr;
+            for (int i = 0; i < listEnemy->size(); ++i) {
+                if (listEnemy->at(i)->getX() == intendXCor &&
+                    listEnemy->at(i)->getY() == intendYCor &&
+                    listEnemy->at(i)->getRace() == "Merchant") {
+                    m = static_cast<Merchant*>(listEnemy->at(i));
+                    break;
+                }
+            }
+            if (m->isHostile()) {
+                cout << "老子一井盖子呼死你， 打了老子还敢跟老子买东西";
+            } else {
+                m->purchase();
+            }
+        }
+    }
     else if ((out == 'H' || out == 'W' || out == 'E' || 
              out == 'O' || out == 'M' || out == 'D' || out == 'L') && (!drinkPot)) {
                 attackYes = true; //able to use player attack function
@@ -224,6 +248,9 @@ int main()
         vector<Gold*> listGold;
         vector<Enemy*> listEnemy;
 
+        // This is the Chamber of Commerce, a large commerical organization
+        ChamberOfCommerce *coc = new ChamberOfCommerce;
+
         // init the map
         Map *Layer1 = new Blank;
         Window w{Layer1};
@@ -257,7 +284,7 @@ int main()
         int playerChamberIndex = randomChamberIndex;
         int xCorPlayer = 0;
         int yCorPlayer = 0;
-        listChamber.at(randomChamberIndex)->spawnCoordinate(xCorPlayer, yCorPlayer);
+        listChamber.at(randomChamberIndex)->spawnCoordinate(xCorPlayer, yCorPlayer); // !!!
         Player *player = new Shade(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Shade");
         if(playerChoice == "Shade"){
             cout << "you are shade" << endl;
@@ -350,7 +377,7 @@ int main()
             }else if(((12 <= randomEnemyName) && (randomEnemyName <= 13))){ // 2/18 = 1/9
                 enemy = new Orcs(w.picture(), xCorEnemy, yCorEnemy, player);
             }else if(((14 <= randomEnemyName) && (randomEnemyName <= 15))){ // 2/18 = 1/9
-                enemy = new Merchant(w.picture(), xCorEnemy, yCorEnemy, player);
+                enemy = new Merchant(w.picture(), xCorEnemy, yCorEnemy, player, coc);
             }else if(((16 <= randomEnemyName) && (randomEnemyName <= 18))){ //3/18 = 1/6
                 enemy = new Dwarf(w.picture(), xCorEnemy, yCorEnemy, player);
             }

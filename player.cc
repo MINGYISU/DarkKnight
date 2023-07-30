@@ -17,7 +17,7 @@ void Player::attack(Character *e) {
         std::string er = e->getRace();
         if (e->dead() && er != "Human" && er != "Dragon" && er != "Merchant") {
             srand(time(0));
-            if (dead()) gain(rand() % 2 + 1);
+            gain(rand() % 2 + 1);
         }
     }
 }

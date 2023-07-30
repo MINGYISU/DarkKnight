@@ -9,13 +9,13 @@ void Merchant::call() { home->warning(); } // notify the chamber of commerce
 bool Merchant::isHostile() { return home->wanted(); }
 
 bool Merchant::attack() {
-    if (dead()) return false;
+    if (dead() || !isHostile()) return false;
     int px = pc->getX();
     int py = pc->getY();
     int x = getX();
     int y = getY();
     if ((x - 1) <= px && px <= (x + 1) && (y - 1) <= py && py <= (y + 1)) {
-        if (isHostile()) pc->hurt(damage(getAtk(), pc->getDef()));
+        pc->hurt(damage(getAtk(), pc->getDef()));
         return true;
     }
     return false;
@@ -33,6 +33,7 @@ char Merchant::charAt(int x, int y) {
 }
 
 void Merchant::purchase() {
+    if (isHostile()) return ;
     cout << "\033[2J\033[1;1H";
     cout << "Welcome to the Chamber Store!" << endl;
     cout << home->display() << endl;
@@ -41,10 +42,15 @@ void Merchant::purchase() {
     string pot;
     cin >> input;
     pot = home->sell(input);
-    if (pot == "INVALID") return purchase();
+    if (pot == "INVALID") { purchase(); }
+    if (pc->getAsset() < 3) { 
+        cout << "NOT ENOUGH MOENY!"; 
+        return ;
+    }
     if (pot == "RH") pc->gain(-3);
     else if (pot == "BD") pc->gain(-5);
     else pc->gain(-10);
     pc->drinkPot(pot);
+    cout << "You Bought " << pot;
 }
 

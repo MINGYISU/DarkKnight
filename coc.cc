@@ -20,7 +20,6 @@ void ChamberOfCommerce::refreshStore() {
     srand(time(0));
     for (int i = store.size(); i < 5; ++i) {
         string pt = randPot();
-        cout << pt << endl;
         store.push_back(pt);
     }
 }
@@ -36,7 +35,15 @@ void ChamberOfCommerce::sell(int which) {
 }
 
 std::string ChamberOfCommerce::display() {
-    std::string s{"PRICE: RH-1 BD-3 BA-5\nTODAY'S NEW: "};
+    cout << "    ,-\"=-." << endl;
+    cout << "   .       \\" << endl;
+    cout << "   \"=\'\"=\\   \'" << endl;
+    cout << "   `@] @'|   )" << endl;
+    cout << "   ) ` ' ),-`" << endl;
+    cout << "    \\^_,  \\,  " << endl;
+    cout << "  gpyy,(\\,/ )`-." << endl;
+    cout << "Great to meet you my friend! Have a look at Today's New! " << endl;
+    std::string s{"PRICE: RH-1 BD-3 BA-5"};
     for (int i = 0; i < store.size(); ++i) {
         std::ostringstream oss;
         oss << i;
@@ -46,7 +53,6 @@ std::string ChamberOfCommerce::display() {
 }
 
 int ChamberOfCommerce::getSize() {
-    int s{0};
-    s = store.size();
+    int s{store.size()};
     return s;
 }

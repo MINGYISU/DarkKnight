@@ -47,17 +47,30 @@
 using namespace std;
 
 
+void render(Window *win, Player *p, string &MSG, int floor) {
+        win->display();
+        if (floor > 0) cout << "Floor " << floor << endl;
+        cout << "Race: " << p->getRace() << " Gold: " << p->getAsset() << endl;
+        cout << "HP: " << p->getHP() << endl;
+        cout << "Atk: " << p->getAtk() << endl;
+        cout << "Def: " << p->getDef() << endl;
+        cout << "Action: " << MSG << endl;
+}
+
 int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string cmd, Player* player,
                 vector<MapPotion*>* listPot, vector<Gold*>* listGold, vector<Enemy*>* listEnemy,
-                bool& attackYes, int& x, int& y){
+                bool& attackYes, int& x, int& y, string &MSG){
     char out = ' ';
     int intendXCor = 0;
     int intendYCor = 0;
+    bool at = false;
     bool drinkPot = false;
     bool trade = false;
 
-
-    if(cmd[0] == 'u'){
+    if (cmd[0] == 'a') {
+        cmd = cmd.substr(2, 2);
+        at = true;
+    } else if (cmd[0] == 'u') {
         cmd = cmd.substr(2, 2);
         drinkPot = true;
     } else if (cmd[0] == 't') {
@@ -95,7 +108,6 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
         //return false;
     //}
     else{
-        cout << "请输入正确指令" << endl;
         return 2;
     }
 
@@ -105,14 +117,11 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
     out = w->picture()->charAt(intendXCor, intendYCor);
 
 
-    if (((out == '.') || (out == '+') || (out == '#')) && (!drinkPot) && (!trade))
-    {
+    if (((out == '.') || (out == '+') || (out == '#')) && (!drinkPot) && (!trade) && !at) {
         player->move(intendXCor, intendYCor);
-    }
-    else if (out == '\\')
-    {
+        MSG = "PC moves " + cmd + ". ";
+    } else if (out == '\\') {
         player->move(intendXCor, intendYCor);
-        //break;
         return 0;
 
     }
@@ -121,21 +130,17 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
         {
             if(listGold->at(i)->charAt(intendXCor, intendYCor) == 'G'){
                 if(listGold->at(i)->getAmount() == 6){
-                    //dragon
-                    //cout << "dragon什么毛病？" << endl;
                     if(listGold->at(i)->getPickability()){
                         listGold->at(i)->setPrint(false);
                         player->move(intendXCor, intendYCor);
-                        cout << "this is dragon hoard!" << endl;
                         player->gain(6);
-                    }else{
-                        cout << "defeat dragon!" << endl;
+                        MSG = "PC moves " + cmd + " picks up " + to_string(listGold->at(i)->getAmount()) + " Golds";
                     }
                 }else{
                     listGold->at(i)->setPrint(false);
                     player->move(intendXCor, intendYCor);
-                    cout << "you picked up " << listGold->at(i)->getAmount() << " gold" << endl;
                     player->gain(listGold->at(i)->getAmount());
+                    MSG = "PC moves " + cmd + " and picks up " + to_string(listGold->at(i)->getAmount()) + " Golds";
                 }
                 break;
             }
@@ -145,22 +150,22 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
         bool didDrink = false;
         for(int i = 0; i < listPot->size(); i++){
             if(listPot->at(i)->charAt(intendXCor, intendYCor) == 'P'){
-                //使用药水
                 listPot->at(i)->setPrint(false);
-                cout << "you drinked " << listPot->at(i)->getType() << endl;
                 player->drinkPot(listPot->at(i)->getType());
+                MSG = "PC uses " + listPot->at(i)->getType() + ". ";
                 didDrink = true;
                 break;
             }
         }
         if(!didDrink){
-            cout << "你没喝药为啥摁u???" << endl;
+            MSG = "No Potion Found!";
             return 2;
         }
     } 
-    else if (trade) {
+    else if (trade && !drinkPot && !at) {
         if (out != 'M') {
-            cout << "不是商人你买个屁的东西， 傻逼";
+            MSG = "No Merchant Found!";
+            return 2;
         } else {
             Merchant *m = nullptr;
             for (int i = 0; i < listEnemy->size(); ++i) {
@@ -172,19 +177,28 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
                 }
             }
             if (m->isHostile()) {
-                cout << "老子一井盖子呼死你， 打了老子还敢跟老子买东西";
+                MSG = "You are sanctioned by the Chamber of Commerce! Purchase Denied! ";
             } else {
-                m->purchase();
+                string bought = m->purchase();
+                if (bought == "ESF") {
+                    MSG = "Not Enough Gold! Purchase Denied! ";
+                    return 2;
+                } else if (bought == "QUIT") {
+                    MSG = "PC leaves the Store. ";
+                    return 2;
+                } else {
+                    MSG = "PC purchases and uses " + bought + ". ";
+                }
             }
         }
     }
-    else if ((out == 'H' || out == 'W' || out == 'E' || 
-             out == 'O' || out == 'M' || out == 'D' || out == 'L') && (!drinkPot)) {
+    else if (at && (!drinkPot) && !trade) {
+        if ((out == 'H' || out == 'W' || out == 'E' || 
+             out == 'O' || out == 'M' || out == 'D' || out == 'L') ) {
                 attackYes = true; //able to use player attack function
-    }
-    else
-    {
-        cout << "前面的区域，以后再来探索吧" << endl;
+        } else { MSG = "No Enemy Around. "; }
+    } else {
+        MSG = "Ouch! PC Hits Something Hard! ";
     }
     
     if(player->getRace() == "Troll"){
@@ -197,14 +211,15 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
 void randomEight(Window* w, int x, int y, int& intendX, int& intendY);
 
 void playerAttack(Window* w, vector<Enemy*>* listEnemy, Player* player, int intendXCor,
-                    int intendYCor, vector<Gold*>* listGold){
+                    int intendYCor, vector<Gold*>* listGold, string &MSG){
     for (int i = 0; i < 20; i++) {
         Enemy *e = listEnemy->at(i);
         if (e->getX() == intendXCor &&
             e->getY() == intendYCor) {
+            int bf = e->getHP();
             player->attack(e);
-            cout << "You attacked " << e->getRace() << endl;
-            cout << e->getHP() << endl;
+            if (e->getHP() == 0) { MSG += "PC slains " + e->getRace() + ". "; }
+            else { MSG += "PC deals " + to_string(bf - e->getHP()) + " to " + e->getRace() + " (" + to_string(e->getHP()) + " HP). "; }
 
             if(e->getRace() == "Human"){
                 if(e->dead()){
@@ -235,14 +250,14 @@ void playerAttack(Window* w, vector<Enemy*>* listEnemy, Player* player, int inte
 }
 
 
-void enemyAction(Window* w, vector<Enemy*>* enemyList){
+void enemyAction(Window* w, vector<Enemy*>* enemyList, string &MSG){
     for(int i = 0; i < enemyList->size(); i++){
         if(!enemyList->at(i)->dead()){
             bool attackYes = enemyList->at(i)->attack();
             if(!attackYes){ //not attacking pc
                 enemyList->at(i)->move(w->picture());
             }else{
-                cout << enemyList->at(i)->getRace() << " is attacking you!" << endl;
+                MSG += enemyList->at(i)->getRace() + " deals " + to_string(enemyList->at(i)->getDamage()) + " damage to PC. ";
             }
         }
     }
@@ -301,7 +316,6 @@ void randomEight(Window* w, int x, int y, int& intendX, int& intendY){
             v.erase(v.begin() + randomInd);
         }
         if(v.size() == 0){
-            cout << "没有地方力！悲" << endl;
             intendX = 0;
             intendY = 0; //do not spawn, useless
             return;
@@ -320,24 +334,21 @@ bool enemyLeftRightCompare(Enemy* e1, Enemy* e2){
 }
 
 
-int main()
-{
+int main() {
+    string MSG;
     string Filename = "cc3k-emptySingleFloor.txt";
     string FilenameModified = "cc3k-emptySingleFloor-modified.txt";
 
     //store the player information
     string playerChoice = "Shade";
-    cout << "你想选择什么角色？" << endl;
-    cout << "Shade, Vampire, Goblin, Drow, Troll?" << endl;
+    cout << "Welcome to The Game of ChamberCrawler3000!" << endl;
+    cout << "s: Shade    d: Drow    v: Vampire    g: Goblin    t: Troll" << endl;
+    cout << "Please Choose Your Hero: ";
     getline(cin, playerChoice);
     int playerAsset = 0;
     int playerHP = 0;
 
-    for (int j = 0; j < 5; j++)
-    {
-        if(j > 0){
-            cout << (j+1) << "'s floor!!!!!" << endl;
-        }
+    for (int j = 0; j < 5; j++) {
         // FLOOR BUILDING STAGE!!!
         vector<Chamber *> listChamber; // 这些可能会有memo error
         vector<MapPotion*> listPot; 
@@ -380,39 +391,30 @@ int main()
         int playerChamberIndex = randomChamberIndex;
         int xCorPlayer = 0;
         int yCorPlayer = 0;
-        listChamber.at(randomChamberIndex)->spawnCoordinate(xCorPlayer, yCorPlayer); // !!!
-        Player *player = new Shade(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Shade");
-        if(playerChoice == "Shade"){
-            cout << "you are shade" << endl;
-            player = new Shade(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Shade");
-        }else if(playerChoice == "Vampire"){
-            cout << "you are vampire" << endl;
-            player = new Vampire(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Vampire");
-        }else if(playerChoice == "Goblin"){
-            cout << "you are goblin" << endl;
-            player = new Goblin(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Goblin");
-        }else if(playerChoice == "Drow"){
-            cout << "you are drow" << endl;
-            player = new Drow(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Drow");
-        }else if(playerChoice == "Troll"){
-            cout << "you are troll" << endl;
-            player = new Troll(w.picture(), xCorPlayer, yCorPlayer, playerAsset, "Troll");
-        }else{
-            cout << "别瞎选了，你就当shade得了" << endl;
-            //Player *player = new Shade(w.picture(), xCorPlayer, yCorPlayer);
+        listChamber.at(randomChamberIndex)->spawnCoordinate(xCorPlayer, yCorPlayer); 
+
+        // Spawn Player Character
+        Player *player = nullptr;
+        if (playerChoice == "v") {
+            player = new Vampire(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
+        } else if (playerChoice == "g") {
+            player = new Goblin(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
+        }else if(playerChoice == "d"){
+            player = new Drow(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
+        }else if(playerChoice == "t"){
+            player = new Troll(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
+        } else {
+           player = new Shade(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
         }
         w.picture() = player;
+
         if (j != 0) {
             player->setHP(playerHP);
         }
 
-        //w.display();
-        // call player ctor at that random place
-
         // generate the stairway
         int xCorStair = 0;
         int yCorStair = 0;
-        //srand(time(0));
         while(true){
             randomChamberIndex = rand() % 5;
             if(randomChamberIndex != playerChamberIndex){ //ensure stair and player is not in the same
@@ -438,6 +440,7 @@ int main()
             listPot.push_back(pot);
             w.picture() = pot;
         }
+
         //generate the gold
         int arrGoldName[8] = {1, 1, 2, 2, 2, 2, 2, 6};
         int lengthArrGoldName = sizeof(arrGoldName) / sizeof(arrGoldName[0]);
@@ -450,7 +453,6 @@ int main()
             int randomGoldName = arrGoldName[rand() % lengthArrGoldName];
             if(randomGoldName == 6){
                 //dragon hoard
-                cout << "DRAGON!!!!!!!!!!" << endl;
                 int dragonXCor = 0;
                 int dragonYCor = 0;
                 DragonHoard* gold = new DragonHoard(w.picture(), xCorGold, yCorGold);
@@ -496,8 +498,10 @@ int main()
             listEnemy.push_back(enemy);
             w.picture() = enemy;
         }
+        // sort the enemy from left to right
         sort(listEnemy.begin(), listEnemy.end(), enemyLeftRightCompare);
-        w.display();
+        MSG = "Player Character has spawned. ";
+        render(&w, player, MSG, -1);
 
 
         //READING CMD STAGE!!!
@@ -505,11 +509,7 @@ int main()
         //bool nextFloor = false;
         while(true){
             string cmd;
-            cout << "pls move" << endl;
-            cout << "no for north, so for south, ea for east, we for west" << endl;
-            cout << "ne for northeast, nw for northwest, se for southeast, sw for southwest" << endl;
-            //cout << "u direction to drink potion, there is a blank between!" << endl;
-
+            cout << "DO: ";
 
             getline(cin, cmd);
             int currentPlayerXCor = player->getX();
@@ -519,14 +519,11 @@ int main()
             int intendx = 0;
             int intendy = 0;
             int action = movePlayer(&w, currentPlayerXCor, currentPlayerYCor, cmd, player, 
-                                    &listPot, &listGold, &listEnemy, attackYes, intendx, intendy);
+                                    &listPot, &listGold, &listEnemy, attackYes, intendx, intendy, MSG);
             if (action == 1){
-                enemyAction(&w, &listEnemy);
-                cout << player->getRace() << endl;
-                cout << "Player gold: " << player->getAsset() << endl;
-                cout << "Player HP: " << player->getHP() << endl;
+                enemyAction(&w, &listEnemy, MSG);
                 if(attackYes){
-                    playerAttack(&w, &listEnemy, player, intendx, intendy, &listGold);
+                    playerAttack(&w, &listEnemy, player, intendx, intendy, &listGold, MSG);
                 }
             }else if(action == 2){
                 //no move
@@ -536,9 +533,8 @@ int main()
                 break;
             }
 
-
-
-            w.display();
+            render(&w, player, MSG, j + 1);
+            MSG = "";
         }
     }
 }

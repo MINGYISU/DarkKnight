@@ -15,7 +15,7 @@ class Merchant: public Enemy {
         void call();
         bool isHostile();
         char charAt(int x, int y) override;
-        void purchase();
+        string purchase();
 };
 
 #endif

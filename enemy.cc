@@ -66,3 +66,7 @@ void Enemy::move(Map *m) {
         yCor += 1;
     } 
 }
+
+int Enemy::getDamage() {
+    return damage(getAtk(), pc->getDef());
+}

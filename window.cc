@@ -9,8 +9,10 @@ using namespace std;
 #define GREEN_TXT "32"
 #define RED_TXT "31"
 #define RESET "\033[m"
+#define CLS "\033[2J\033[1;1H"
 
 void Window::display() {
+  out << CLS;
   for (int i = 0; i < Map::FLOORHEIGHT; ++i) {
     for (int j = 0; j < Map::FLOORWIDTH; ++j) {
       char output = picture()->charAt(j, i);

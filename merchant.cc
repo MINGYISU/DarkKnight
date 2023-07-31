@@ -1,5 +1,4 @@
 #include "merchant.h"
-using namespace std;
 
 Merchant::Merchant(Map *p, int x, int y, Player *pc, ChamberOfCommerce *coc, const string r):
     Enemy{p, x, y, 30, 70, 5, pc, r}, home{coc} {}
@@ -32,8 +31,8 @@ char Merchant::charAt(int x, int y) {
     else return nextLayer->charAt(x, y);
 }
 
-void Merchant::purchase() {
-    if (isHostile()) return ;
+string Merchant::purchase() {
+    if (isHostile()) return "QUIT";
     cout << "\033[2J\033[1;1H";
     cout << "Welcome to the Chamber Store!" << endl;
     cout << home->display() << endl;
@@ -43,20 +42,18 @@ void Merchant::purchase() {
     cin >> input;
     pot = home->getAt(input);
     if (pot == "INVALID") { 
-        return ;
+        return "QUIT";
     }
     if (pot == "RH") {
         if (pc->getAsset() < 1) { 
-            cout << "NOT ENOUGH MONEY";
-            return ;
+            return "ESF";
         } else {
             pc->gain(-1);
             home->sell(input);
         }
     } else if (pot == "BD") 
         if (pc->getAsset() < 3) { 
-            cout << "NOT ENOUGH MONEY";
-            return ;
+            return "ESF";
         }
         else {
             pc->gain(-3);
@@ -64,14 +61,13 @@ void Merchant::purchase() {
         }
     else {
         if (pc->getAsset() < 5) { 
-            cout << "NOT ENOUGH MONEY";
-            return ;
+            return "ESF";
         } else {
             pc->gain(-5);
             home->sell(input);
         }
     }
     pc->drinkPot(pot);
-    cout << "You Bought " << pot;
+    return pot;
 }
 

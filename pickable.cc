@@ -29,10 +29,12 @@ void Pickable::setPrint(bool b)
 char Pickable::charAt(int x, int y) {}
 
 //new below (Jeannie)
-void Pickable::changeX(int x) {
-    xCor = x;
-}
-void Pickable::changeY(int y) {
-    yCor = y;
+void Pickable::swap(Pickable *onGround) {
+    if (this != nullptr) {
+        this->xCor = onGround->xCor;
+        this->yCor = onGround->yCor;
+        this->toprint = true;
+    }
+    onGround->toprint = false;
 }
 //new above (Jeannie)

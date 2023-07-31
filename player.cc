@@ -76,14 +76,9 @@ int Player::getAsset() {
 
 //new below (Jeannie)
 void Player::changeEquip(Equipment* onGround) {
-    if (CurEquip != nullptr) {
-        CurEquip->setPrint(true);
-        CurEquip->changeX(onGround->getX());
-        CurEquip->changeY(onGround->getY());
-    }
-    onGround->setPrint(false);
+    CurEquip->swap(onGround);
     Equipment* temp = CurEquip;
     CurEquip = onGround;
     onGround = temp;
 }
-//new above
+//new above (Jeannie)

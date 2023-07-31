@@ -5,6 +5,7 @@ Player::Player(Map *p, int x, int y, int max_hp,
                Character{p, x, y, max_hp, atk, def, r},
                max_hp{max_hp}, asset{a} {
                 CurEffect = new Water;
+                CurEquip = nullptr;
                }
 
 char Player::charAt(int x, int y) {
@@ -73,9 +74,16 @@ int Player::getAsset() {
     return asset;
 }
 
-//new below
-void Player::changeEquip(Equipment* inHands, Equipment* onGround) {
-    swap(inHands, onGround);
+//new below (Jeannie)
+void Player::changeEquip(Equipment* onGround) {
+    if (CurEquip != nullptr) {
+        CurEquip->setPrint(true);
+        CurEquip->changeX(onGround->getX());
+        CurEquip->changeY(onGround->getY());
+    }
+    onGround->setPrint(false);
+    Equipment* temp = CurEquip;
     CurEquip = onGround;
+    onGround = temp;
 }
 //new above

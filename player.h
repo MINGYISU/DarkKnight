@@ -36,7 +36,7 @@ class Player: public Character {
         virtual int getDef();
         int getAsset();
         //new
-        void changeEquip(Equipment* inHands, Equipment* onGround);
+        void changeEquip(Equipment* onGround);
         //new above
 };
 

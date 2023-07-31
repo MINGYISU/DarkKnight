@@ -1,4 +1,7 @@
 #include "pickable.h"
+//temporate
+#include <iostream>
+//temporate
 using namespace std;
 
 Pickable::Pickable(Map *p, int x, int y) : Decorator{p}, xCor{x}, yCor{y}, toprint{true} {}
@@ -25,9 +28,11 @@ void Pickable::setPrint(bool b)
 
 char Pickable::charAt(int x, int y) {}
 
-void Pickable::swap(Pickable* inHands, Pickable* onGround) {
-    inHands->xCor = onGround->xCor;
-    inHands->yCor = onGround->yCor;
-    inHands->toprint = true;
-    onGround->toprint = false;
+//new below (Jeannie)
+void Pickable::changeX(int x) {
+    xCor = x;
 }
+void Pickable::changeY(int y) {
+    yCor = y;
+}
+//new above (Jeannie)

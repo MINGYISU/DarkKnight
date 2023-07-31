@@ -5,6 +5,9 @@ using namespace std;
 
 class Pickable : public Decorator
 {
+    //new below
+    public:
+    //new aboove
     bool toprint;
     int xCor, yCor;
 
@@ -15,9 +18,10 @@ public:
     int getY();
     bool toPrint();
     void setPrint(bool b);
-    //new
-    void swap(Pickable* inHands, Pickable* onGround);
-    //new ablove 
+    //new(Jeannie)
+    void changeX(int x);
+    void changeY(int y);
+    //new ablove (Jeannie)
 };
 
 #endif

@@ -42,7 +42,12 @@ std::string ChamberOfCommerce::display() {
     cout << "   ) ` ' ),-`" << endl;
     cout << "    \\^_,  \\,  " << endl;
     cout << "  gpyy,(\\,/ )`-." << endl;
-    cout << "Great to meet you my friend! Have a look at Today's New! " << endl;
+    cout << "| Great to meet you my friend! |" << endl;
+    cout << "| I am the Enigmatic Peddler of Wonders, |" << endl;
+    cout << "| a member of the Chamber of Commerce! |" << endl;
+    cout << "| Have a look at Today's New! |" << endl;
+    for (int i = 0; i < 60; i ++) { cout << '-'; }
+    cout << endl;
     std::string s{"PRICE: RH-1 BD-3 BA-5"};
     for (int i = 0; i < store.size(); ++i) {
         std::ostringstream oss;

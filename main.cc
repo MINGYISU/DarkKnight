@@ -49,8 +49,13 @@ using namespace std;
 
 void render(Window *win, Player *p, string &MSG, int floor) {
         win->display();
-        if (floor > 0) cout << "Floor " << floor << endl;
         cout << "Race: " << p->getRace() << " Gold: " << p->getAsset() << endl;
+        if (floor > 0) {
+            for (int i = 0; i < 60; ++i) {
+                cout << " ";
+            }
+            cout << "Floor " << floor << endl;
+        }
         cout << "HP: " << p->getHP() << endl;
         cout << "Atk: " << p->getAtk() << endl;
         cout << "Def: " << p->getDef() << endl;
@@ -134,13 +139,13 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
                         listGold->at(i)->setPrint(false);
                         player->move(intendXCor, intendYCor);
                         player->gain(6);
-                        MSG = "PC moves " + cmd + " picks up " + to_string(listGold->at(i)->getAmount()) + " Golds";
+                        MSG = "PC moves " + cmd + " picks up " + to_string(listGold->at(i)->getAmount()) + " Golds. ";
                     }
                 }else{
                     listGold->at(i)->setPrint(false);
                     player->move(intendXCor, intendYCor);
                     player->gain(listGold->at(i)->getAmount());
-                    MSG = "PC moves " + cmd + " and picks up " + to_string(listGold->at(i)->getAmount()) + " Golds";
+                    MSG = "PC moves " + cmd + " and picks up " + to_string(listGold->at(i)->getAmount()) + " Golds. ";
                 }
                 break;
             }
@@ -502,6 +507,7 @@ int main() {
         sort(listEnemy.begin(), listEnemy.end(), enemyLeftRightCompare);
         MSG = "Player Character has spawned. ";
         render(&w, player, MSG, -1);
+        MSG = "";
 
 
         //READING CMD STAGE!!!

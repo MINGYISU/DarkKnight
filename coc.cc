@@ -61,7 +61,7 @@ void ChamberOfCommerce::display() {
     cout << endl;
     int ssize = static_cast<int>(store.size());
     for (int i = 0; i < ssize; ++i) {
-        cout << i+1 <<  ": " << store.at(i) << " ";
+        cout << i <<  ": " << store.at(i) << " ";
     }
 }
 

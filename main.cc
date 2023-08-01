@@ -46,25 +46,56 @@
 
 using namespace std;
 
+string dir(string d) {
+    if (d == "no") return "North";
+    else if (d == "ea") return "East";
+    else if (d == "so") return "South";
+    else if (d == "we") return "West";
+    else if (d == "ne") return "Northeast";
+    else if (d == "nw") return "Northwet";
+    else if (d == "sw") return "Southwest";
+    else if (d == "se") return "Southeast";
+    else return "";
+}
 
-void render(Window *win, Player *p, string &MSG, int floor) {
-        win->display();
-        cout << "Race: " << p->getRace() << " Gold: " << p->getAsset() << endl;
+string item(char t) {
+    string s = ", and sees ";
+    if (t == 'G') return s + "some Golds";
+    else if (t == 'P') return s + "a unknown potion";
+    else if (t == 'O') return s + "an Orcs";
+    else if (t == 'm') return s + "a Friendly Merchant";
+    else if (t == 'M') return s + "an Angry Merchant";
+    else if (t == 'L') return s + "a Halfling";
+    else if (t == 'E') return s + "an Elf";
+    else if (t == 'D') return s + "a Dragon";
+    else if (t == 'H') return s + "a Human";
+    else if (t == 'W') return s + "a Dwarf";
+    else return "";
+}
+
+void render(Window *win, Player *p, string &MSG, int floor, bool dlc) {
+        if(dlc){
+            win->visionDisplay();
+        }else{
+            win->display();
+        }
+        cout << "Race: " << p->getRace() << " Gold: " << p->getAsset();
         if (floor > 0) {
-            for (int i = 0; i < 60; ++i) {
+            for (int i = 0; i < 50; ++i) {
                 cout << " ";
             }
-            cout << "Floor " << floor << endl;
+            cout << "Floor " << floor;
         }
-        cout << "HP: " << p->getHP() << endl;
+        cout << endl << "HP: " << p->getHP() << endl;
         cout << "Atk: " << p->getAtk() << endl;
         cout << "Def: " << p->getDef() << endl;
         cout << "Action: " << MSG << endl;
+        MSG = "";
 }
 
 int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string cmd, Player* player,
                 vector<MapPotion*>* listPot, vector<Gold*>* listGold, vector<Enemy*>* listEnemy,
-                bool& attackYes, int& x, int& y, string &MSG){
+                bool& attackYes, int& x, int& y, string &MSG, bool dlc){
     char out = ' ';
     int intendXCor = 0;
     int intendYCor = 0;
@@ -78,7 +109,7 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
     } else if (cmd[0] == 'u') {
         cmd = cmd.substr(2, 2);
         drinkPot = true;
-    } else if (cmd[0] == 't') {
+    } else if ((cmd[0] == 't') && dlc) {
         cmd = cmd.substr(2, 2);
         trade = true;
     }
@@ -124,7 +155,16 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
 
     if (((out == '.') || (out == '+') || (out == '#')) && (!drinkPot) && (!trade) && !at) {
         player->move(intendXCor, intendYCor);
-        MSG = "PC moves " + cmd + ". ";
+        MSG = "PC moves " + dir(cmd);
+        MSG += item(w->picture()->charAt(intendXCor, intendYCor - 1));
+        MSG += item(w->picture()->charAt(intendXCor, intendYCor + 1));
+        MSG += item(w->picture()->charAt(intendXCor + 1, intendYCor));
+        MSG += item(w->picture()->charAt(intendXCor - 1, intendYCor));
+        MSG += item(w->picture()->charAt(intendXCor + 1, intendYCor - 1));
+        MSG += item(w->picture()->charAt(intendXCor - 1, intendYCor - 1));
+        MSG += item(w->picture()->charAt(intendXCor + 1, intendYCor + 1)); 
+        MSG += item(w->picture()->charAt(intendXCor - 1, intendYCor + 1));
+        MSG += ". ";
     } else if (out == '\\') {
         player->move(intendXCor, intendYCor);
         return 0;
@@ -139,13 +179,13 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
                         listGold->at(i)->setPrint(false);
                         player->move(intendXCor, intendYCor);
                         player->gain(6);
-                        MSG = "PC moves " + cmd + " picks up " + to_string(listGold->at(i)->getAmount()) + " Golds. ";
+                        MSG = "PC moves " + dir(cmd) + " picks up " + to_string(listGold->at(i)->getAmount()) + " Golds. ";
                     }
                 }else{
                     listGold->at(i)->setPrint(false);
                     player->move(intendXCor, intendYCor);
                     player->gain(listGold->at(i)->getAmount());
-                    MSG = "PC moves " + cmd + " and picks up " + to_string(listGold->at(i)->getAmount()) + " Golds. ";
+                    MSG = "PC moves " + dir(cmd) + " and picks up " + to_string(listGold->at(i)->getAmount()) + " Golds. ";
                 }
                 break;
             }
@@ -163,13 +203,13 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
             }
         }
         if(!didDrink){
-            MSG = "No Potion Found!";
+            MSG = "What Are You Looking For?! This is Not a Potion :(. ";
             return 2;
         }
     } 
     else if (trade && !drinkPot && !at) {
         if (out != 'M') {
-            MSG = "No Merchant Found!";
+            MSG = "Only Capitalists can sell goods to you. Who are you making a deal with? :(";
             return 2;
         } else {
             Merchant *m = nullptr;
@@ -182,7 +222,7 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
                 }
             }
             if (m->isHostile()) {
-                MSG = "You are sanctioned by the Chamber of Commerce! Purchase Denied! ";
+                MSG = "\"DON'T YOU DARE BUY A SINGLE THING FROM ME ANYMORE!!!\", said by the Angry Merchant. ";
             } else {
                 string bought = m->purchase();
                 if (bought == "ESF") {
@@ -199,9 +239,9 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
     }
     else if (at && (!drinkPot) && !trade) {
         if ((out == 'H' || out == 'W' || out == 'E' || 
-             out == 'O' || out == 'M' || out == 'D' || out == 'L') ) {
+             out == 'O' || out == 'M' || out == 'm' || out == 'D' || out == 'L') ) {
                 attackYes = true; //able to use player attack function
-        } else { MSG = "No Enemy Around. "; }
+        } else { MSG = "Pulling Out the Sword, Looking Around, Killing the Air :(. "; }
     } else {
         MSG = "Ouch! PC Hits Something Hard! ";
     }
@@ -217,14 +257,20 @@ void randomEight(Window* w, int x, int y, int& intendX, int& intendY);
 
 void playerAttack(Window* w, vector<Enemy*>* listEnemy, Player* player, int intendXCor,
                     int intendYCor, vector<Gold*>* listGold, string &MSG){
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < listEnemy->size(); i++) {
         Enemy *e = listEnemy->at(i);
         if (e->getX() == intendXCor &&
             e->getY() == intendYCor) {
             int bf = e->getHP();
             player->attack(e);
             if (e->getHP() == 0) { MSG += "PC slains " + e->getRace() + ". "; }
-            else { MSG += "PC deals " + to_string(bf - e->getHP()) + " to " + e->getRace() + " (" + to_string(e->getHP()) + " HP). "; }
+            else { 
+                if (e->getRace() == "Halfling" && bf == e->getHP()) {
+                    MSG += "PC misses the attack to Halfling (" + to_string(e->getHP()) + " HP). ";
+                } else {
+                    MSG += "PC deals " + to_string(bf - e->getHP()) + " to " + e->getRace() + " (" + to_string(e->getHP()) + " HP). "; 
+                }
+            }
 
             if(e->getRace() == "Human"){
                 if(e->dead()){
@@ -247,6 +293,12 @@ void playerAttack(Window* w, vector<Enemy*>* listEnemy, Player* player, int inte
                     w->picture() = merchantHoard;
                     listGold->push_back(merchantHoard);
                 }
+            }
+
+            if (e->dead())
+            { // erase and put to back: dead enemies are all at the end
+                listEnemy->erase(listEnemy->begin() + i);
+                listEnemy->push_back(e); //
             }
 
             break;
@@ -339,210 +391,307 @@ bool enemyLeftRightCompare(Enemy* e1, Enemy* e2){
 }
 
 
-int main() {
+int main(int argc, char* argv[]) {
+    bool dlc = false;
+    if(argc >= 2) {
+        dlc = true;
+    }
+
     string MSG;
     string Filename = "cc3k-emptySingleFloor.txt";
     string FilenameModified = "cc3k-emptySingleFloor-modified.txt";
 
-    //store the player information
-    string playerChoice = "Shade";
-    cout << "Welcome to The Game of ChamberCrawler3000!" << endl;
-    cout << "s: Shade    d: Drow    v: Vampire    g: Goblin    t: Troll" << endl;
-    cout << "Please Choose Your Hero: ";
-    getline(cin, playerChoice);
-    int playerAsset = 0;
-    int playerHP = 0;
+    bool restart = false;
+    bool quit = false;
 
-    for (int j = 0; j < 5; j++) {
-        // FLOOR BUILDING STAGE!!!
-        vector<Chamber *> listChamber; // 这些可能会有memo error
-        vector<MapPotion*> listPot; 
-        vector<Gold*> listGold;
-        vector<Enemy*> listEnemy;
+    while(true) {
+        // store the player information
+        string playerChoice = "Shade";
+        cout << "Welcome to The Game of ChamberCrawler3000!" << endl;
+        cout << "s: Shade    d: Drow    v: Vampire    g: Goblin    t: Troll" << endl;
+        cout << "YOUR FATE: ";
+        getline(cin, playerChoice);
+        int playerAsset = 0;
+        int playerHP = 0;
 
-        // This is the Chamber of Commerce, a large commerical organization
-        ChamberOfCommerce *coc = new ChamberOfCommerce;
+        bool creatorMode = true;
 
-        // init the map
-        Map *Layer1 = new Blank;
-        Window w{Layer1};
-        // 1. start with frame
-        w.picture() = new Frame{w.picture()};
-        // 2. then fill the chamber
-        Chamber *newptr1 = new Chamber{w.picture(), 7, 2, 3, 29, Filename};
-        listChamber.push_back(newptr1);
-        w.picture() = newptr1;
-        Chamber *newptr2 = new Chamber{w.picture(), 22, 15, 4, 29, Filename};
-        listChamber.push_back(newptr2);
-        w.picture() = newptr2;
-        Chamber *newptr3 = new Chamber{w.picture(), 23, 16, 37, 79, Filename};
-        listChamber.push_back(newptr3);
-        w.picture() = newptr3;
-        Chamber *newptr4 = new Chamber{w.picture(), 13, 10, 38, 51, Filename};
-        listChamber.push_back(newptr4);
-        w.picture() = newptr4;
-        Chamber *newptr5 = new Chamber{w.picture(), 13, 3, 39, 78, FilenameModified};
-        listChamber.push_back(newptr5);
-        w.picture() = newptr5;
+        for (int j = 0; j < 5; j++) {
 
+            
+            // FLOOR BUILDING STAGE!!!
+            vector<Chamber *> listChamber; // 这些可能会有memo error
+            vector<MapPotion *> listPot;
+            vector<Gold *> listGold;
+            vector<Enemy *> listEnemy;
 
+            // This is the Chamber of Commerce, a large commerical organization
+            ChamberOfCommerce *coc = new ChamberOfCommerce;
 
+            // init the map
+            Map *Layer1 = new Blank;
+            Window w{Layer1};
+            // 1. start with frame
+            w.picture() = new Frame{w.picture()};
+            // 2. then fill the chamber
+            Chamber *newptr1 = new Chamber{w.picture(), 7, 2, 3, 29, Filename};
+            listChamber.push_back(newptr1);
+            w.picture() = newptr1;
+            Chamber *newptr2 = new Chamber{w.picture(), 22, 15, 4, 29, Filename};
+            listChamber.push_back(newptr2);
+            w.picture() = newptr2;
+            Chamber *newptr3 = new Chamber{w.picture(), 23, 16, 37, 79, Filename};
+            listChamber.push_back(newptr3);
+            w.picture() = newptr3;
+            Chamber *newptr4 = new Chamber{w.picture(), 13, 10, 38, 51, Filename};
+            listChamber.push_back(newptr4);
+            w.picture() = newptr4;
+            Chamber *newptr5 = new Chamber{w.picture(), 13, 3, 39, 78, FilenameModified};
+            listChamber.push_back(newptr5);
+            w.picture() = newptr5;
 
-        // RANDOM GENERATION STAGE!
-        // generate the player
-        // 1. randomly choose 1 chamber,
-        srand(time(0));
-        int randomChamberIndex = rand() % 5;
-        int playerChamberIndex = randomChamberIndex;
-        int xCorPlayer = 0;
-        int yCorPlayer = 0;
-        listChamber.at(randomChamberIndex)->spawnCoordinate(xCorPlayer, yCorPlayer); 
+            // RANDOM GENERATION STAGE!
+            // generate the player
+            // 1. randomly choose 1 chamber,
+            srand(time(0));
+            int randomChamberIndex = rand() % 5;
+            int playerChamberIndex = randomChamberIndex;
+            int xCorPlayer = 0;
+            int yCorPlayer = 0;
+            listChamber.at(randomChamberIndex)->spawnCoordinate(xCorPlayer, yCorPlayer);
 
-        // Spawn Player Character
-        Player *player = nullptr;
-        if (playerChoice == "v") {
-            player = new Vampire(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
-        } else if (playerChoice == "g") {
-            player = new Goblin(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
-        }else if(playerChoice == "d"){
-            player = new Drow(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
-        }else if(playerChoice == "t"){
-            player = new Troll(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
-        } else {
-           player = new Shade(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
-        }
-        w.picture() = player;
-
-        if (j != 0) {
-            player->setHP(playerHP);
-        }
-
-        // generate the stairway
-        int xCorStair = 0;
-        int yCorStair = 0;
-        while(true){
-            randomChamberIndex = rand() % 5;
-            if(randomChamberIndex != playerChamberIndex){ //ensure stair and player is not in the same
-                break;
+            // Spawn Player Character
+            Player *player = nullptr;
+            if (playerChoice == "v")
+            {
+                player = new Vampire(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
             }
-        }
-        listChamber.at(randomChamberIndex)->spawnCoordinate(xCorStair, yCorStair);
-        Stair* stair = new Stair(w.picture(), xCorStair, yCorStair);
-        w.picture() = stair;
-        
-
-
-        // generate the potion
-        string arrPotName[6] = {"BA", "BD", "WA", "WD", "PH", "RH"};
-        int lengthArrPotName = sizeof(arrPotName) / sizeof(arrPotName[0]);
-        for(int i = 0; i < 5; i++){
-            int xCorPot = 0;
-            int yCorPot = 0;
-            randomChamberIndex = rand() % 5;
-            listChamber.at(randomChamberIndex)->spawnCoordinate(xCorPot, yCorPot);
-            int randomPotNameIndex = rand() % lengthArrPotName;
-            MapPotion *pot = new MapPotion(w.picture(), xCorPot, yCorPot, arrPotName[randomPotNameIndex]);
-            listPot.push_back(pot);
-            w.picture() = pot;
-        }
-
-        //generate the gold
-        int arrGoldName[8] = {1, 1, 2, 2, 2, 2, 2, 6};
-        int lengthArrGoldName = sizeof(arrGoldName) / sizeof(arrGoldName[0]);
-        int dragonNumber = 0;
-        for(int i = 0; i < 10; i++){
-            int xCorGold = 0;
-            int yCorGold = 0;
-            randomChamberIndex = rand() % 5;
-            listChamber.at(randomChamberIndex)->spawnCoordinate(xCorGold, yCorGold);
-            int randomGoldName = arrGoldName[rand() % lengthArrGoldName];
-            if(randomGoldName == 6){
-                //dragon hoard
-                int dragonXCor = 0;
-                int dragonYCor = 0;
-                DragonHoard* gold = new DragonHoard(w.picture(), xCorGold, yCorGold);
-                listGold.push_back(gold);
-                w.picture() = gold;
-                randomEight(&w, xCorGold, yCorGold, dragonXCor, dragonYCor);
-                Dragon* dragon = new Dragon{w.picture(), dragonXCor, dragonYCor, player, xCorGold, yCorGold};
-                dragonNumber++;
-                listEnemy.push_back(dragon);
-                gold->setResidence(dragon);
-                w.picture() = dragon;
-                listChamber.at(randomChamberIndex)->useSpawnCoordinate(dragonXCor, dragonYCor);
-            }else{
-                Drop* gold = new Drop(w.picture(), xCorGold, yCorGold, randomGoldName);
-                listGold.push_back(gold);
-                w.picture() = gold;
+            else if (playerChoice == "g")
+            {
+                player = new Goblin(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
             }
-        }
-
-        //generate the enemy
-        int arrEnemyName[18] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
-        int lengthArrEnemyName = sizeof(arrEnemyName) / sizeof(arrEnemyName[0]);
-        for(int i = 0; i < 20 - dragonNumber; i++){
-            int xCorEnemy = 0;
-            int yCorEnemy = 0;
-            randomChamberIndex = rand() % 5;
-            listChamber.at(randomChamberIndex)->spawnCoordinate(xCorEnemy, yCorEnemy);
-            int randomEnemyName = arrEnemyName[rand() % lengthArrEnemyName];
-            Enemy* enemy = nullptr;
-            if((1 <= randomEnemyName) && (randomEnemyName <= 4)){ // 4/18 = 2/9
-                enemy = new Human(w.picture(), xCorEnemy, yCorEnemy, player);
-            }else if((5 <= randomEnemyName) && (randomEnemyName <= 9)){ // 5/18
-                enemy = new Halfling(w.picture(), xCorEnemy, yCorEnemy, player);
-            }else if(((10 <= randomEnemyName) && (randomEnemyName <= 11))){ // 2/18 = 1/9
-                enemy = new Elf(w.picture(), xCorEnemy, yCorEnemy, player);
-            }else if(((12 <= randomEnemyName) && (randomEnemyName <= 13))){ // 2/18 = 1/9
-                enemy = new Orcs(w.picture(), xCorEnemy, yCorEnemy, player);
-            }else if(((14 <= randomEnemyName) && (randomEnemyName <= 15))){ // 2/18 = 1/9
-                enemy = new Merchant(w.picture(), xCorEnemy, yCorEnemy, player, coc);
-            }else if(((16 <= randomEnemyName) && (randomEnemyName <= 18))){ //3/18 = 1/6
-                enemy = new Dwarf(w.picture(), xCorEnemy, yCorEnemy, player);
+            else if (playerChoice == "d")
+            {
+                player = new Drow(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
             }
-            listEnemy.push_back(enemy);
-            w.picture() = enemy;
-        }
-        // sort the enemy from left to right
-        sort(listEnemy.begin(), listEnemy.end(), enemyLeftRightCompare);
-        MSG = "Player Character has spawned. ";
-        render(&w, player, MSG, -1);
-        MSG = "";
+            else if (playerChoice == "t")
+            {
+                player = new Troll(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
+            }
+            else
+            {
+                player = new Shade(w.picture(), xCorPlayer, yCorPlayer, playerAsset);
+            }
+            w.picture() = player;
 
-
-        //READING CMD STAGE!!!
-        //PLAYING STAGE!!!
-        //bool nextFloor = false;
-        while(true){
-            string cmd;
-            cout << "DO: ";
-
-            getline(cin, cmd);
-            int currentPlayerXCor = player->getX();
-            int currentPlayerYCor = player->getY();
-            //cout << currentPlayerXCor << " " << currentPlayerYCor << endl;
-            bool attackYes = false; //player always init attack as false
-            int intendx = 0;
-            int intendy = 0;
-            int action = movePlayer(&w, currentPlayerXCor, currentPlayerYCor, cmd, player, 
-                                    &listPot, &listGold, &listEnemy, attackYes, intendx, intendy, MSG);
-            if (action == 1){
-                enemyAction(&w, &listEnemy, MSG);
-                if(attackYes){
-                    playerAttack(&w, &listEnemy, player, intendx, intendy, &listGold, MSG);
+            if (j != 0)
+            {
+                player->setHP(playerHP);
+            }
+            w.windowInit(player);
+            // generate the stairway
+            int xCorStair = 0;
+            int yCorStair = 0;
+            while (true)
+            {
+                randomChamberIndex = rand() % 5;
+                if (randomChamberIndex != playerChamberIndex)
+                { // ensure stair and player is not in the same
+                    break;
                 }
-            }else if(action == 2){
-                //no move
-            }else if(action == 0){ // next for loop, next layer
-                playerAsset += player->getAsset();
-                playerHP = player->getHP();
-                break;
+            }
+            listChamber.at(randomChamberIndex)->spawnCoordinate(xCorStair, yCorStair);
+            Stair *stair = new Stair(w.picture(), xCorStair, yCorStair);
+            w.picture() = stair;
+
+            // generate the potion
+            string arrPotName[6] = {"BA", "BD", "WA", "WD", "PH", "RH"};
+            int lengthArrPotName = sizeof(arrPotName) / sizeof(arrPotName[0]);
+            for (int i = 0; i < 5; i++)
+            {
+                int xCorPot = 0;
+                int yCorPot = 0;
+                randomChamberIndex = rand() % 5;
+                listChamber.at(randomChamberIndex)->spawnCoordinate(xCorPot, yCorPot);
+                int randomPotNameIndex = rand() % lengthArrPotName;
+                MapPotion *pot = new MapPotion(w.picture(), xCorPot, yCorPot, arrPotName[randomPotNameIndex]);
+                listPot.push_back(pot);
+                w.picture() = pot;
             }
 
-            render(&w, player, MSG, j + 1);
+            // generate the gold
+            int arrGoldName[8] = {1, 1, 2, 2, 2, 2, 2, 6};
+            int lengthArrGoldName = sizeof(arrGoldName) / sizeof(arrGoldName[0]);
+            int dragonNumber = 0;
+            for (int i = 0; i < 10; i++)
+            {
+                int xCorGold = 0;
+                int yCorGold = 0;
+                randomChamberIndex = rand() % 5;
+                listChamber.at(randomChamberIndex)->spawnCoordinate(xCorGold, yCorGold);
+                int randomGoldName = arrGoldName[rand() % lengthArrGoldName];
+                if (randomGoldName == 6)
+                {
+                    // dragon hoard
+                    int dragonXCor = 0;
+                    int dragonYCor = 0;
+                    DragonHoard *gold = new DragonHoard(w.picture(), xCorGold, yCorGold);
+                    listGold.push_back(gold);
+                    w.picture() = gold;
+                    randomEight(&w, xCorGold, yCorGold, dragonXCor, dragonYCor);
+                    Dragon *dragon = new Dragon{w.picture(), dragonXCor, dragonYCor, player, xCorGold, yCorGold};
+                    dragonNumber++;
+                    listEnemy.push_back(dragon);
+                    gold->setResidence(dragon);
+                    w.picture() = dragon;
+                    listChamber.at(randomChamberIndex)->useSpawnCoordinate(dragonXCor, dragonYCor);
+                }
+                else
+                {
+                    Drop *gold = new Drop(w.picture(), xCorGold, yCorGold, randomGoldName);
+                    listGold.push_back(gold);
+                    w.picture() = gold;
+                }
+            }
+
+            // generate the enemy
+            int arrEnemyName[18] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18};
+            int lengthArrEnemyName = sizeof(arrEnemyName) / sizeof(arrEnemyName[0]);
+            for (int i = 0; i < 20 - dragonNumber; i++)
+            {
+                int xCorEnemy = 0;
+                int yCorEnemy = 0;
+                randomChamberIndex = rand() % 5;
+                listChamber.at(randomChamberIndex)->spawnCoordinate(xCorEnemy, yCorEnemy);
+                int randomEnemyName = arrEnemyName[rand() % lengthArrEnemyName];
+                Enemy *enemy = nullptr;
+                if ((1 <= randomEnemyName) && (randomEnemyName <= 4))
+                { // 4/18 = 2/9
+                    enemy = new Human(w.picture(), xCorEnemy, yCorEnemy, player);
+                }
+                else if ((5 <= randomEnemyName) && (randomEnemyName <= 9))
+                { // 5/18
+                    enemy = new Halfling(w.picture(), xCorEnemy, yCorEnemy, player);
+                }
+                else if (((10 <= randomEnemyName) && (randomEnemyName <= 11)))
+                { // 2/18 = 1/9
+                    enemy = new Elf(w.picture(), xCorEnemy, yCorEnemy, player);
+                }
+                else if (((12 <= randomEnemyName) && (randomEnemyName <= 13)))
+                { // 2/18 = 1/9
+                    enemy = new Orcs(w.picture(), xCorEnemy, yCorEnemy, player);
+                }
+                else if (((14 <= randomEnemyName) && (randomEnemyName <= 15)))
+                { // 2/18 = 1/9
+                    enemy = new Merchant(w.picture(), xCorEnemy, yCorEnemy, player, coc);
+                }
+                else if (((16 <= randomEnemyName) && (randomEnemyName <= 18)))
+                { // 3/18 = 1/6
+                    enemy = new Dwarf(w.picture(), xCorEnemy, yCorEnemy, player);
+                }
+                listEnemy.push_back(enemy);
+                w.picture() = enemy;
+            }
+            // sort the enemy from left to right
+            sort(listEnemy.begin(), listEnemy.end(), enemyLeftRightCompare);
+            MSG = "Player Character has spawned. ";
+            render(&w, player, MSG, 0, dlc);
             MSG = "";
+
+            // READING CMD STAGE!!!
+            // PLAYING STAGE!!!
+            // bool nextFloor = false;
+            while (true) {
+                string cmd;
+                cout << "-|===>: ";
+
+                getline(cin, cmd);
+
+                if (cmd == "q")
+                {
+                    quit = true;
+                    break;
+                }
+                else if (cmd == "r")
+                {
+                    restart = true;
+                    break;
+                }
+                else if (cmd == "f")
+                {
+                    creatorMode = !creatorMode;
+                }
+
+                int currentPlayerXCor = player->getX();
+                int currentPlayerYCor = player->getY();
+                bool attackYes = false; // player always init attack as false
+                int intendx = 0;
+                int intendy = 0;
+                int action = movePlayer(&w, currentPlayerXCor, currentPlayerYCor, cmd, player,
+                                        &listPot, &listGold, &listEnemy, attackYes, intendx, intendy, MSG, dlc);
+                if (player->dead()) {
+                    quit = true;
+                    break;
+                }
+
+                if (action == 1)
+                {
+                    if (creatorMode)
+                    {
+                        enemyAction(&w, &listEnemy, MSG);
+                        if (player->dead()) {
+                            quit = true;
+                            break;
+                        }
+                    }
+                    if (attackYes)
+                    {
+                        playerAttack(&w, &listEnemy, player, intendx, intendy, &listGold, MSG);
+                    }
+                    if (dlc)
+                    {
+                        w.updateVision(player);
+                    }
+                }
+                else if (action == 2)
+                {
+                    // no move
+                }
+                else if (action == 0)
+                { // next for loop, next layer
+                    playerAsset += player->getAsset();
+                    playerHP = player->getHP();
+                    break;
+                }
+                render(&w, player, MSG, j + 1, dlc);
+            }
+            if (quit)
+            {
+                MSG = "MISSION FAILED";
+                render(&w, player, MSG, j+1, dlc);
+                cout << "RECORDS: Golds: " << player->getAsset() << endl;
+                cout << "FLOOR ACHIEVED: " << j + 1 << endl;
+                delete coc;
+                break;
+            }
+            if (restart)
+            {
+                delete coc;
+                break;
+            }
+        }
+
+        if (quit)
+        {
+            break;
+        }
+        if (restart)
+        {
+            continue;
         }
     }
+
+    return 0;
 }
 
 

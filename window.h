@@ -3,12 +3,13 @@
 #include <iostream>
 #include <vector>
 #include "map.h"
+#include "player.h"
 
 class Window {
   std::ostream &out = std::cout;
 
   Map* win;
-  //enemy vector
+  int pcVision[Map::FLOORHEIGHT][Map::FLOORWIDTH];
 
  public:
   //vector<Chamber*> chamberList;
@@ -16,6 +17,9 @@ class Window {
 
   Map *&picture() { return win; } //getter
   void display();
+  void visionDisplay();
+  void updateVision(Player* pc);
+  void windowInit(Player* pc);
   ~Window();
 };
 

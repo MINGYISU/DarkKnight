@@ -19,6 +19,7 @@ class Player: public Character {
     public:
         Player(Map *p, int x, int y, int max_hp, 
                 int atk, int def, std::string r, int a = 0);
+        ~Player();
         char charAt(int x, int y) override;
         virtual void attack(Character *e);
         void changeHP(int amt) override;

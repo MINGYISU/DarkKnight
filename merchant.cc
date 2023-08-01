@@ -27,7 +27,10 @@ bool Merchant::hurt(int dmg) {
 }
 
 char Merchant::charAt(int x, int y) {
-    if (!dead() && x == getX() && y == getY()) return 'M';
+    if (!dead() && x == getX() && y == getY()) {
+        if (isHostile()) return 'M';
+        else return 'm';
+    }
     else return nextLayer->charAt(x, y);
 }
 

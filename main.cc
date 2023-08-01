@@ -219,7 +219,7 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
         }
     } 
     else if (trade && !drinkPot && !at) {
-        if (out != 'M') {
+        if (out != 'm') {
             MSG = "Only Capitalists can sell goods to you. Who are you making a deal with? :(";
             return 2;
         } else {

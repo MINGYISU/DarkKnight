@@ -677,6 +677,8 @@ int main(int argc, char* argv[]) {
             if (restart)
             {
                 delete coc;
+                delete w.picture();
+                w.picture() = nullptr;
                 break;
             }
         }

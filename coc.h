@@ -18,6 +18,7 @@ class ChamberOfCommerce {
 
     public:
         explicit ChamberOfCommerce();
+        ~ChamberOfCommerce();
         void warning();
         bool wanted();
         int getSize();

@@ -116,7 +116,9 @@ Window::~Window() {
   //delete[] pcVision;
 }
 
-
+void Window::destroy() {
+  delete win;
+}
 
 
 

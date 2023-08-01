@@ -11,8 +11,8 @@ class Character: public Decorator {
     // bool toprint;
     
     protected:
-        const int atk, def;
         int xCor, yCor, cur_hp;
+        const int atk, def;
 
     public:
         Character(Map *p, int x, int y, int cur_hp,

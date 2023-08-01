@@ -23,5 +23,3 @@ void Pickable::setPrint(bool b)
     toprint = b;
 }
 
-char Pickable::charAt(int x, int y) {}
-

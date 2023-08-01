@@ -3,14 +3,12 @@
 using namespace std;
 #include "decorator.h"
 
-class Pickable : public Decorator
-{
-    bool toprint;
+class Pickable : public Decorator {
     int xCor, yCor;
+    bool toprint;
 
 public:
     Pickable(Map *p, int x, int y);
-    virtual char charAt(int x, int y) = 0;
     int getX();
     int getY();
     bool toPrint();

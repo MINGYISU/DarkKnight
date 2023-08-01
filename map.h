@@ -4,13 +4,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-class Map{
-    protected:
-    
-    
+class Map {
     public:
     static const int FLOORWIDTH = 79; // x
     static const int FLOORHEIGHT = 25; // y
+    virtual ~Map();
     virtual char charAt(int xCor, int yCor) = 0;
 };
 

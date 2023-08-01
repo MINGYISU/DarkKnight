@@ -20,6 +20,7 @@ class Window {
   void visionDisplay();
   void updateVision(Player* pc);
   void windowInit(Player* pc);
+  void destroy();
   ~Window();
 };
 

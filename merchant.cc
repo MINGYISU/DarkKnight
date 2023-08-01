@@ -49,14 +49,14 @@ string Merchant::purchase() {
     }
     if (pot == "RH") {
         if (pc->getAsset() < 1) { 
-            return "ESF";
+            return "NEF";
         } else {
             pc->gain(-1);
             home->sell(input);
         }
     } else if (pot == "BD") 
         if (pc->getAsset() < 3) { 
-            return "ESF";
+            return "NEF";
         }
         else {
             pc->gain(-3);
@@ -64,7 +64,7 @@ string Merchant::purchase() {
         }
     else {
         if (pc->getAsset() < 5) { 
-            return "ESF";
+            return "NEF";
         } else {
             pc->gain(-5);
             home->sell(input);

@@ -27,12 +27,14 @@ void ChamberOfCommerce::refreshStore() {
 }
 
 std::string ChamberOfCommerce::getAt(int which) {
-    if (which < 0 || which > store.size()) return "INVALID";
+    int stsize = static_cast<int>(store.size());
+    if (which < 0 || which > stsize) return "INVALID";
     return store.at(which);
 }
 
 void ChamberOfCommerce::sell(int which) {
-    if (which < 0 || which > store.size()) return ;
+    int ss = static_cast<int>(store.size());
+    if (which < 0 || which > ss) return ;
     store.erase(store.begin() + which);
 }
 
@@ -51,7 +53,8 @@ std::string ChamberOfCommerce::display() {
     for (int i = 0; i < 60; i ++) { cout << '-'; }
     cout << endl;
     std::string s{"PRICE: RH-1 BD-3 BA-5"};
-    for (int i = 0; i < store.size(); ++i) {
+    int ssize = static_cast<int>(store.size());
+    for (int i = 0; i < ssize; ++i) {
         std::ostringstream oss;
         oss << i;
         s += oss.str() + ": " + store.at(i) + " ";
@@ -60,6 +63,6 @@ std::string ChamberOfCommerce::display() {
 }
 
 int ChamberOfCommerce::getSize() {
-    int s{store.size()};
+    int s = static_cast<int>(store.size());
     return s;
 }

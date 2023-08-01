@@ -9,6 +9,7 @@ using namespace std;
 #define BLUE_TXT "34"
 #define GREEN_TXT "32"
 #define RED_TXT "31"
+#define RED_BACK "101"
 #define RESET "\033[m"
 #define CLS "\033[2J\033[1;1H"
 
@@ -43,9 +44,12 @@ void Window::display() {
       }else if(output == 'P'){
         out << ESC << BACKGROUND << ";" << GREEN_TXT << "m" << output << RESET;
       }else if((output == 'H') || (output == 'W') || (output == 'E') || (output == 'O') || (output == 'M')
-                || (output == 'D') || (output == 'L') || (output == 'X')){
+                || (output == 'D') || (output == 'L')){
         out << ESC << BACKGROUND << ";" << RED_TXT << "m" << output << RESET;
-      }else if ((output == 'm')){
+      }else if (output == 'X') {
+        out << ESC << BACKGROUND << ";" << RED_BACK << "m" << output << RESET;
+      }
+      else if ((output == 'm')){
         out << ESC << BACKGROUND << ";" << BLUE_TXT << "m" << 'M' << RESET;
       }
       else{

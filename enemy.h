@@ -12,7 +12,7 @@ class Enemy: public Character {
         Player *pc;
     public:
         Enemy(Map *p, int x, int y, int max_hp, int atk, int def, Player *pc, std::string r);
-        int getDamage();
+        int getPCHP();
         virtual bool attack();
         virtual bool hurt(int dmg);
         virtual void move(Map *m);

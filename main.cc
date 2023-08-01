@@ -42,9 +42,18 @@
 #include "BD.h"
 #include "Water.h"
 
-
-
 using namespace std;
+
+void coolLogo() {
+    cout << "\033[2J\033[1;1H";
+    cout << "              .-." << endl;
+    cout << "              | |____________________________________________________" << endl;
+    cout << " _ _ _ _ _ _ _| |                                                  .'`." << endl;
+    cout << "|_|_|_|_|_|_|_| |-<Welcome-to-the-World-of-ChamberCrawler3000!>-.'****>" << endl;
+    cout << "`.            | |_______________________________________________.'***.'" << endl;
+    cout << "  `.        .'| |                                               `**'" << endl;
+    cout << "    `-.___.'  `-'                                              .'*`." << endl;
+}
 
 string dir(string d) {
     if (d == "no") return "North";
@@ -60,8 +69,8 @@ string dir(string d) {
 
 string item(char t) {
     string s = ", and sees ";
-    if (t == 'G') return s + "some Golds";
-    else if (t == 'P') return s + "a unknown potion";
+    if (t == 'G') return s + "a Treasure";
+    else if (t == 'P') return s + "an Unknown potion";
     else if (t == 'O') return s + "an Orcs";
     else if (t == 'm') return s + "a Friendly Merchant";
     else if (t == 'M') return s + "an Angry Merchant";
@@ -171,7 +180,8 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
 
     }
     else if((out == 'G') && (!drinkPot)){
-        for (int i = 0; i < listGold->size(); i++)
+        int lgs = static_cast<int>(listGold->size());
+        for (int i = 0; i < lgs; i++)
         {
             if(listGold->at(i)->charAt(intendXCor, intendYCor) == 'G'){
                 if(listGold->at(i)->getAmount() == 6){
@@ -193,7 +203,8 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
     }
     else if(drinkPot && (!trade)){
         bool didDrink = false;
-        for(int i = 0; i < listPot->size(); i++){
+        int lps = static_cast<int>(listPot->size());
+        for(int i = 0; i < lps; i++){
             if(listPot->at(i)->charAt(intendXCor, intendYCor) == 'P'){
                 listPot->at(i)->setPrint(false);
                 player->drinkPot(listPot->at(i)->getType());
@@ -213,7 +224,8 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
             return 2;
         } else {
             Merchant *m = nullptr;
-            for (int i = 0; i < listEnemy->size(); ++i) {
+            int les = static_cast<int>(listEnemy->size());
+            for (int i = 0; i < les; ++i) {
                 if (listEnemy->at(i)->getX() == intendXCor &&
                     listEnemy->at(i)->getY() == intendYCor &&
                     listEnemy->at(i)->getRace() == "Merchant") {
@@ -225,7 +237,7 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
                 MSG = "\"DON'T YOU DARE BUY A SINGLE THING FROM ME ANYMORE!!!\", said by the Angry Merchant. ";
             } else {
                 string bought = m->purchase();
-                if (bought == "ESF") {
+                if (bought == "NEF") {
                     MSG = "Not Enough Gold! Purchase Denied! ";
                     return 2;
                 } else if (bought == "QUIT") {
@@ -257,7 +269,8 @@ void randomEight(Window* w, int x, int y, int& intendX, int& intendY);
 
 void playerAttack(Window* w, vector<Enemy*>* listEnemy, Player* player, int intendXCor,
                     int intendYCor, vector<Gold*>* listGold, string &MSG){
-    for (int i = 0; i < listEnemy->size(); i++) {
+    int lesize = static_cast<int>(listEnemy->size());
+    for (int i = 0; i < lesize; i++) {
         Enemy *e = listEnemy->at(i);
         if (e->getX() == intendXCor &&
             e->getY() == intendYCor) {
@@ -308,13 +321,19 @@ void playerAttack(Window* w, vector<Enemy*>* listEnemy, Player* player, int inte
 
 
 void enemyAction(Window* w, vector<Enemy*>* enemyList, string &MSG){
-    for(int i = 0; i < enemyList->size(); i++){
+    int els = static_cast<int>(enemyList->size());
+    for(int i = 0; i < els; i++){
         if(!enemyList->at(i)->dead()){
+            int bf = enemyList->at(i)->getPCHP();
             bool attackYes = enemyList->at(i)->attack();
             if(!attackYes){ //not attacking pc
                 enemyList->at(i)->move(w->picture());
             }else{
-                MSG += enemyList->at(i)->getRace() + " deals " + to_string(enemyList->at(i)->getDamage()) + " damage to PC. ";
+                if (bf == enemyList->at(i)->getPCHP()) {
+                    MSG += enemyList->at(i)->getRace() + " misses the attack to PC. ";
+                } else {
+                    MSG += enemyList->at(i)->getRace() + " deals " + to_string(bf - enemyList->at(i)->getPCHP()) + " damage to PC. ";
+                }
             }
         }
     }
@@ -407,7 +426,7 @@ int main(int argc, char* argv[]) {
     while(true) {
         // store the player information
         string playerChoice = "Shade";
-        cout << "Welcome to The Game of ChamberCrawler3000!" << endl;
+        coolLogo();
         cout << "s: Shade    d: Drow    v: Vampire    g: Goblin    t: Troll" << endl;
         cout << "YOUR FATE: ";
         getline(cin, playerChoice);
@@ -420,7 +439,7 @@ int main(int argc, char* argv[]) {
 
             
             // FLOOR BUILDING STAGE!!!
-            vector<Chamber *> listChamber;
+            vector<Chamber *> listChamber; // 这些可能会有memo error
             vector<MapPotion *> listPot;
             vector<Gold *> listGold;
             vector<Enemy *> listEnemy;

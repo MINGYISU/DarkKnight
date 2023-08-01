@@ -67,6 +67,6 @@ void Enemy::move(Map *m) {
     } 
 }
 
-int Enemy::getDamage() {
-    return damage(getAtk(), pc->getDef());
+int Enemy::getPCHP() {
+    return pc->getHP();
 }

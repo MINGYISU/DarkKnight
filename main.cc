@@ -44,6 +44,30 @@
 
 using namespace std;
 
+void victoryFlag() {
+    cout << "\033[2J\033[1;1H";
+    cout << "  __" << endl;
+    cout << "/ \\--..____" << endl;
+    cout << " \\ \\   V   \\-----,,,.." << endl;
+    cout << "  \\ \\   I   \\         \\--,,.." << endl;
+    cout << "   \\ \\   C   \\         \\  ,'" << endl;
+    cout << "    \\ \\   T   \\         \\ ``.." << endl;
+    cout << "     \\ \\   O   \\         \\-''" << endl;
+    cout << "      \\ \\   R   \\__,,--'''" << endl;
+    cout << "       \\ \\   Y   \\." << endl;
+    cout << "        \\ \\   !  ,/" << endl;
+    cout << "         \\ \\__..-" << endl;
+    cout << "          \\ \\" << endl;
+    cout << "           \\ \\" << endl;
+    cout << "            \\ \\" << endl;
+    cout << "             \\ \\" << endl;
+    cout << "              \\ \\" << endl;
+    cout << "               \\ \\" << endl;
+    cout << "                \\ \\" << endl;
+    cout << "                 \\ \\" << endl;
+    cout << "                  \\ \\" << endl;
+}
+
 void coolLogo() {
     cout << "\033[2J\033[1;1H";
     cout << "              .-." << endl;
@@ -681,6 +705,8 @@ int main(int argc, char* argv[]) {
                 { // next for loop, next layer
                     playerAsset += player->getAsset();
                     playerHP = player->getHP();
+                    w.destroy();
+                    delete coc;
                     break;
                 }
                 render(&w, player, MSG, j + 1, dlc);
@@ -700,16 +726,24 @@ int main(int argc, char* argv[]) {
                 w.destroy();
                 break;
             }
+
+            if (j == 0) { 
+                victoryFlag();
+                cout << "GOLDS GAINED: " << player->getAsset() << endl;
+                cout << "CONGRATULATIONS! YOU ARE THE HERO OF CHAMBER!" << endl;
+                cout << "THANK YOU FOR PLAYING OUR GAME!" << endl;
+                quit = true;
+                break;
+            }
         }
 
-        if (quit)
-        {
+        if (quit) {
             break;
-        }
-        if (restart)
-        {
+        } else if (restart) {
             continue;
         }
+
+
     }
 
     return 0;

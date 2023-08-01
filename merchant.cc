@@ -39,7 +39,8 @@ string Merchant::purchase() {
     cout << "\033[2J\033[1;1H";
     cout << "Welcome to the Chamber Store!" << endl;
     home->display();
-    cout << "Choose: ";
+    cout << "Current Asset: $" << pc->getAsset() << " ";
+    cout << "BUY: ";
     int input;
     string pot;
     cin >> input;
@@ -47,30 +48,12 @@ string Merchant::purchase() {
     if (pot == "INVALID") { 
         return "QUIT";
     }
-    if (pot == "RH") {
-        if (pc->getAsset() < 1) { 
-            return "NEF";
-        } else {
-            pc->gain(-1);
-            home->sell(input);
-        }
-    } else if (pot == "BD") 
-        if (pc->getAsset() < 3) { 
-            return "NEF";
-        }
-        else {
-            pc->gain(-3);
-            home->sell(input);
-        }
+    if (pc->getAsset() < home->price(pot)) return "NEF";
     else {
-        if (pc->getAsset() < 5) { 
-            return "NEF";
-        } else {
-            pc->gain(-5);
-            home->sell(input);
-        }
+        home->sell(input);
+        pc->gain(-home->price(pot));
+        pc->drinkPot(pot);
+        return pot;
     }
-    pc->drinkPot(pot);
-    return pot;
 }
 

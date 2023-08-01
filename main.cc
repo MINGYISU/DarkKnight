@@ -639,6 +639,7 @@ int main(int argc, char* argv[]) {
                 else if (cmd == "f")
                 {
                     creatorMode = !creatorMode;
+                    MSG = "TIME STOP!";
                 }
 
                 int currentPlayerXCor = player->getX();

@@ -86,6 +86,8 @@ void Window::visionDisplay(){
           out << ESC << BACKGROUND << ";" << RED_TXT << "m" << output << RESET;
         }else if ((output == 'm')){
           out << ESC << BACKGROUND << ";" << BLUE_TXT << "m" << 'M' << RESET;
+        }else if (output == 'X') {
+        out << ESC << BACKGROUND << ";" << RED_BACK << "m" << output << RESET;
         }
         else
         {

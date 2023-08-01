@@ -15,7 +15,6 @@ class ChamberOfCommerce {
     std::vector<std::string> store;
     std::string randPot();
     void refreshStore();
-    int price(string g);
 
     public:
         explicit ChamberOfCommerce();
@@ -26,6 +25,7 @@ class ChamberOfCommerce {
         string getAt(int which);
         void sell(int which);
         void display();
+        int price(string g);
 };
 
 #endif

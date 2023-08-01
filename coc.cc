@@ -11,10 +11,17 @@ void ChamberOfCommerce::warning() { manhunt = true; } // A merchant was attacked
 
 bool ChamberOfCommerce::wanted() { return manhunt; }
 
+int ChamberOfCommerce::price(string g) {
+    if (g == "RH") return 1;
+    else if (g == "BD") return 3;
+    else if (g == "BA") return 5;
+    else return -1;
+}
+
 std::string ChamberOfCommerce::randPot() {
     int ran = rand() % 6;
     if (ran == 0) return "BA";
-    else if (1 == ran || ran == 2) return "BD";
+    else if (1 <= ran && ran <= 2) return "BD";
     else return "RH";
 }
 
@@ -38,7 +45,7 @@ void ChamberOfCommerce::sell(int which) {
     store.erase(store.begin() + which);
 }
 
-std::string ChamberOfCommerce::display() {
+void ChamberOfCommerce::display() {
     cout << "    ,-\"=-." << endl;
     cout << "   .       \\" << endl;
     cout << "   \"=\'\"=\\   \'" << endl;
@@ -52,14 +59,10 @@ std::string ChamberOfCommerce::display() {
     cout << "| Have a look at Today's New! |" << endl;
     for (int i = 0; i < 60; i ++) { cout << '-'; }
     cout << endl;
-    std::string s{"PRICE: RH-1 BD-3 BA-5"};
     int ssize = static_cast<int>(store.size());
     for (int i = 0; i < ssize; ++i) {
-        std::ostringstream oss;
-        oss << i;
-        s += oss.str() + ": " + store.at(i) + " ";
+        cout << i+1 <<  ": " << store.at(i) << " ";
     }
-    return s;
 }
 
 int ChamberOfCommerce::getSize() {

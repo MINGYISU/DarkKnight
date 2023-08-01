@@ -122,6 +122,7 @@ Window::~Window() {
 
 void Window::destroy() {
   delete win;
+  win = nullptr;
 }
 
 

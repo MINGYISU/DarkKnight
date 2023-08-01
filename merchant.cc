@@ -38,7 +38,7 @@ string Merchant::purchase() {
     if (isHostile()) return "QUIT";
     cout << "\033[2J\033[1;1H";
     cout << "Welcome to the Chamber Store!" << endl;
-    cout << home->display() << endl;
+    home->display();
     cout << "Choose: ";
     int input;
     string pot;

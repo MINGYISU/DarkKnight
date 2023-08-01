@@ -42,6 +42,11 @@
 #include "BD.h"
 #include "Water.h"
 
+#include "equipment.h"
+#include "shield.h"
+#include "sword.h"
+#include "fist.h"
+
 using namespace std;
 
 void victoryFlag() {
@@ -122,13 +127,16 @@ void render(Window *win, Player *p, string &MSG, int floor, bool dlc) {
         cout << endl << "HP: " << p->getHP() << endl;
         cout << "Atk: " << p->getAtk() << endl;
         cout << "Def: " << p->getDef() << endl;
+        if(dlc){
+            cout << "Weapon: " << p->getEquip() << endl;
+        }
         cout << "Action: " << MSG << endl;
         MSG = "";
 }
 
 int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string cmd, Player* player,
                 vector<MapPotion*>* listPot, vector<Gold*>* listGold, vector<Enemy*>* listEnemy,
-                bool& attackYes, int& x, int& y, string &MSG, bool dlc){
+                bool& attackYes, int& x, int& y, string &MSG, bool dlc, vector<Equipment*>* listWeapon){
     char out = ' ';
     int intendXCor = 0;
     int intendYCor = 0;
@@ -237,14 +245,59 @@ int movePlayer(Window* w, int currentPlayerXCor, int currentPlayerYCor, string c
                 break;
             }
         }
+
+        if(dlc){
+            int lws = static_cast<int>(listWeapon->size());
+            for (int i = 0; i < lws; i++)
+            {
+                if ((listWeapon->at(i)->charAt(intendXCor, intendYCor) == '!') && 
+                    (listWeapon->at(i)->toPrint()))
+                {
+                    //player->changeEquip(listWeapon->at(i));
+                    //change equipment
+                    listWeapon->at(i)->setPrint(false);//do not use it anymore
+                    Equipment* oldequip = nullptr;
+                    if(player->getEquip() == "Fist"){
+                        oldequip = new Fist{w->picture(), intendXCor, intendYCor};
+                    }else if(player->getEquip() == "Sword"){
+                        oldequip = new Sword{w->picture(), intendXCor, intendYCor};
+                    }else if(player->getEquip() == "Shield"){
+                        oldequip = new Shield{w->picture(), intendXCor, intendYCor};
+                    }
+                    oldequip->setPrint(true);
+                    w->picture() = oldequip; //oldequip appear on the 
+                    listWeapon->push_back(oldequip);
+
+                    Equipment* newequip = nullptr;
+                    if(listWeapon->at(i)->itemName() == "Fist"){
+                        newequip = new Fist{nullptr};
+                    }else if(listWeapon->at(i)->itemName() == "Sword"){
+                        newequip = new Sword{nullptr, 0, 0};
+                    }else if(listWeapon->at(i)->itemName() == "Shield"){
+                        newequip = new Shield{nullptr, 0, 0};
+                    }
+                    player->useEquip(newequip);
+                    
+
+                    MSG = "PC picks up " + listWeapon->at(i)->itemName() + ". ";
+                    didDrink = true;
+                    break;
+                }
+            }
+        }
+
         if(!didDrink){
-            MSG = "What Are You Looking For?! This is Not a Potion :(. ";
+            if(dlc){
+                MSG = "You have nothing to pick or use!";
+            }else{
+                MSG = "What Are You Looking For?! This is Not a Potion :(. ";
+            }
             return 2;
         }
     } 
     else if (trade && !drinkPot && !at) {
         if (out != 'm') {
-            MSG = "Only Capitalists can sell goods to you. Who are you making a deal with? :(";
+            MSG = "Only Capitalists can sell goods to you. Who are you making a deal with? :(. ";
             return 2;
         } else {
             Merchant *m = nullptr;
@@ -456,6 +509,7 @@ int main(int argc, char* argv[]) {
         getline(cin, playerChoice);
         int playerAsset = 0;
         int playerHP = 0;
+        string playerWeapon = "Fist";
 
         bool creatorMode = true;
 
@@ -467,6 +521,7 @@ int main(int argc, char* argv[]) {
             vector<MapPotion *> listPot;
             vector<Gold *> listGold;
             vector<Enemy *> listEnemy;
+            vector<Equipment*> listWeapon;
 
             // This is the Chamber of Commerce, a large commerical organization
             ChamberOfCommerce *coc = new ChamberOfCommerce;
@@ -530,7 +585,17 @@ int main(int argc, char* argv[]) {
             if (j != 0)
             {
                 player->setHP(playerHP);
+                Equipment* weapon = nullptr;
+                if(playerWeapon == "Fist"){
+                    weapon = new Fist{nullptr};
+                }else if(playerWeapon == "Sword"){
+                    weapon = new Sword{nullptr, 0, 0};
+                }else if(playerWeapon == "Shield"){
+                    weapon = new Shield{nullptr, 0, 0};
+                }
+                player->useEquip(weapon);
             }
+
             w.windowInit(player);
             // generate the stairway
             int xCorStair = 0;
@@ -635,6 +700,30 @@ int main(int argc, char* argv[]) {
                 listEnemy.push_back(enemy);
                 w.picture() = enemy;
             }
+
+
+            if(dlc){
+                //generate weapons
+                int arrNameWeapon[2] = {0, 1};
+                int lengthArrWeapon = sizeof(arrNameWeapon) / sizeof(arrNameWeapon[0]);
+                for(int i = 0; i < 1; i++){
+                    int xCorWea = 0;
+                    int yCorWea = 0;
+                    randomChamberIndex = rand() % 5;
+                    listChamber.at(randomChamberIndex)->spawnCoordinate(xCorWea, yCorWea);
+                    int randomWeapon = arrNameWeapon[rand() % lengthArrWeapon];
+                    Equipment *equip = nullptr;
+                    if(randomWeapon == 0){
+                        equip = new Sword(w.picture(), xCorWea, yCorWea);
+                    }else if(randomWeapon == 1){
+                        equip = new Shield(w.picture(), xCorWea, yCorWea);
+                    }
+                    listWeapon.push_back(equip);
+                    w.picture() = equip;
+                }
+            }
+
+
             // sort the enemy from left to right
             sort(listEnemy.begin(), listEnemy.end(), enemyLeftRightCompare);
             MSG = "Player Character has spawned. ";
@@ -672,7 +761,7 @@ int main(int argc, char* argv[]) {
                 int intendx = 0;
                 int intendy = 0;
                 int action = movePlayer(&w, currentPlayerXCor, currentPlayerYCor, cmd, player,
-                                        &listPot, &listGold, &listEnemy, attackYes, intendx, intendy, MSG, dlc);
+                                        &listPot, &listGold, &listEnemy, attackYes, intendx, intendy, MSG, dlc, &listWeapon);
                 if (player->dead()) {
                     quit = true;
                     break;
@@ -705,6 +794,7 @@ int main(int argc, char* argv[]) {
                 { // next for loop, next layer
                     playerAsset += player->getAsset();
                     playerHP = player->getHP();
+                    playerWeapon = player->getEquip();
                     w.destroy();
                     delete coc;
                     break;
@@ -718,6 +808,7 @@ int main(int argc, char* argv[]) {
                 cout << "RECORDS: Golds: " << player->getAsset() << endl;
                 cout << "FLOOR ACHIEVED: " << j + 1 << endl;
                 delete coc;
+                w.destroy();
                 break;
             }
             if (restart)

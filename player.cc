@@ -1,13 +1,24 @@
 #include "player.h"
 
 Player::Player(Map *p, int x, int y, int max_hp,
-               int atk, int def, std::string r, int a): 
-               Character{p, x, y, max_hp, atk, def, r},
-               max_hp{max_hp}, asset{a} {
-                CurEffect = new Water;
-               }
+               int atk, int def, std::string r, int a, Equipment *e): Character{p, x, y, max_hp, atk, def, r},
+               max_hp{max_hp}, asset{a}
+{
+    CurEffect = new Water;
+    if (e != nullptr)
+    {
+        CurEquip = e;
+    }
+    else
+    {
+        CurEquip = new Fist{nullptr};
+    }
+}
 
-Player::~Player() { delete CurEffect; }
+Player::~Player() { 
+    delete CurEffect; 
+    delete CurEquip;
+}
 
 char Player::charAt(int x, int y) {
     if((x == getX()) && (y == getY())) {
@@ -54,14 +65,14 @@ void Player::drinkPot(string PotType) {
     }
 }
 
-int Player::getAtk() { 
-    int a = atk + CurEffect->changeAtk();
+int Player::getAtk() {
+    int a = atk + CurEffect->changeAtk() + CurEquip->cAtk();
     if (a < 0) return 0;
     else return a;
 }
 
-int Player::getDef() { 
-    int d = def + CurEffect->changeDef();
+int Player::getDef() {
+    int d = atk + CurEffect->changeAtk() + CurEquip->cDef();
     if (d < 0) return 0;
     else return d; 
 }
@@ -83,4 +94,14 @@ int Player::getAsset() {
 
 void Player::setHP(int hp) {
     cur_hp = hp;
+}
+
+string Player::getEquip(){
+    return CurEquip->itemName();
+}
+
+void Player::useEquip(Equipment * equip){
+    delete CurEquip;
+    CurEquip = nullptr;
+    CurEquip = equip;
 }

@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Werror=vla -MMD
-EXEC = exe
+EXEC = cc3k
 SRC = $(wildcard *.cc)
 OBJECTS = $(SRC:.cc=.o)
 DEPENDS = ${OBJECTS:.o=.d}

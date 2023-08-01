@@ -3,9 +3,9 @@
 Drow::Drow(Map *p, int x, int y, int a, std::string r):
     Player{p, x, y, 150, 25, 15, r, a} {}
 
-int Drow::getAtk() { return atk + CurEffect->changeAtk() * 3 / 2; }
+int Drow::getAtk() { return atk + CurEffect->changeAtk() * 3 / 2 + CurEquip->cAtk(); }
 
-int Drow::getDef() { return def + CurEffect->changeDef() * 3 / 2; }
+int Drow::getDef() { return def + CurEffect->changeDef() * 3 / 2 + CurEquip->cDef(); }
 
 void Drow::drinkPot(string PotType) {
     if (PotType == "RH") {

@@ -10,6 +10,7 @@
 //new (Jeannie)
 #include "sword.h"
 #include "shield.h"
+#include "fist.h"
 //new (Jeannie)
 #include <string>
 
@@ -25,7 +26,7 @@ class Player: public Character {
     
     public:
         Player(Map *p, int x, int y, int max_hp, 
-                int atk, int def, std::string r, int a = 0);
+                int atk, int def, std::string r, int a = 0, Equipment* e = nullptr);
         char charAt(int x, int y) override;
         virtual void attack(Character *e);
         void changeHP(int amt) override;

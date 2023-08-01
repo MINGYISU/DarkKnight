@@ -30,11 +30,9 @@ char Pickable::charAt(int x, int y) {}
 
 //new below (Jeannie)
 void Pickable::swap(Pickable *onGround) {
-    if (this != nullptr) {
-        this->xCor = onGround->xCor;
-        this->yCor = onGround->yCor;
-        this->toprint = true;
-    }
+    this->xCor = onGround->xCor;
+    this->yCor = onGround->yCor;
+    this->toprint = true;
     onGround->toprint = false;
 }
 //new above (Jeannie)

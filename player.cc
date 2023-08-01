@@ -1,11 +1,15 @@
 #include "player.h"
 
 Player::Player(Map *p, int x, int y, int max_hp,
-               int atk, int def, std::string r, int a): 
+               int atk, int def, std::string r, int a, Equipment* e): 
                Character{p, x, y, max_hp, atk, def, r},
                max_hp{max_hp}, asset{a} {
                 CurEffect = new Water;
-                CurEquip = nullptr;
+                if (e != nullptr) {
+                    CurEquip = e;
+                } else {
+                    CurEquip = new Fist{p};
+                }
                }
 
 char Player::charAt(int x, int y) {

@@ -35,13 +35,13 @@ void ChamberOfCommerce::refreshStore() {
 
 std::string ChamberOfCommerce::getAt(int which) {
     int stsize = static_cast<int>(store.size());
-    if (which < 0 || which > stsize) return "INVALID";
+    if (which < 0 || which >= stsize) return "INVALID";
     return store.at(which);
 }
 
 void ChamberOfCommerce::sell(int which) {
     int ss = static_cast<int>(store.size());
-    if (which < 0 || which > ss) return ;
+    if (which < 0 || which >= ss) return ;
     store.erase(store.begin() + which);
 }
 

@@ -727,7 +727,7 @@ int main(int argc, char* argv[]) {
                 break;
             }
 
-            if (j == 0) { 
+            if (j == 4) { 
                 victoryFlag();
                 cout << "GOLDS GAINED: " << player->getAsset() << endl;
                 cout << "CONGRATULATIONS! YOU ARE THE HERO OF CHAMBER!" << endl;

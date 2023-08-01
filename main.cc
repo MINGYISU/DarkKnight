@@ -420,7 +420,7 @@ int main(int argc, char* argv[]) {
 
             
             // FLOOR BUILDING STAGE!!!
-            vector<Chamber *> listChamber; // 这些可能会有memo error
+            vector<Chamber *> listChamber;
             vector<MapPotion *> listPot;
             vector<Gold *> listGold;
             vector<Enemy *> listEnemy;

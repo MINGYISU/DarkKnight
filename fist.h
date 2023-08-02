@@ -11,3 +11,4 @@ class Fist: public Equipment {
     const string itemName() override;
 };
 #endif
+

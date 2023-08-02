@@ -85,7 +85,7 @@ void Window::visionDisplay(){
         {
           out << ESC << BACKGROUND << ";" << GREEN_TXT << "m" << output << RESET;
         }
-        else if ((output == 'H') || (output == 'W') || (output == 'E') || (output == 'O') || (output == 'M') || (output == 'D') || (output == 'L') || (output == 'X'))
+        else if ((output == 'H') || (output == 'W') || (output == 'E') || (output == 'O') || (output == 'M') || (output == 'D') || (output == 'L'))
         {
           out << ESC << BACKGROUND << ";" << RED_TXT << "m" << output << RESET;
         }else if ((output == 'm')){

@@ -752,7 +752,8 @@ int main(int argc, char* argv[]) {
                 else if (cmd == "f")
                 {
                     creatorMode = !creatorMode;
-                    MSG = "TIME STOP!";
+                    if (!creatorMode) MSG = "TIME PAUSE!";
+                    else MSG = "TIME CONTINUE!";
                 }
 
                 int currentPlayerXCor = player->getX();
@@ -820,7 +821,7 @@ int main(int argc, char* argv[]) {
 
             if (j == 4) { 
                 victoryFlag();
-                cout << "GOLDS GAINED: " << player->getAsset() << endl;
+                cout << "GOLDS GAINED: " << playerAsset << endl;
                 cout << "CONGRATULATIONS! YOU ARE THE HERO OF CHAMBER!" << endl;
                 cout << "THANK YOU FOR PLAYING OUR GAME!" << endl;
                 quit = true;

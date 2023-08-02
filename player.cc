@@ -72,7 +72,7 @@ int Player::getAtk() {
 }
 
 int Player::getDef() {
-    int d = atk + CurEffect->changeAtk() + CurEquip->cDef();
+    int d = def + CurEffect->changeDef() + CurEquip->cDef();
     if (d < 0) return 0;
     else return d; 
 }

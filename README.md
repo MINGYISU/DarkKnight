@@ -19,7 +19,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 - Installation
   1. clone the repository
-     * $git clone https://github.com/MINGYISU/ChamberCrawler300.git
+     * $git clone https://github.com/MINGYISU/ChamberCrawler3000.git
      * $cd ChamberCrawler300
   3. Build the project using GNU Make (A Makefile has been provided)
      * $make

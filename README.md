@@ -1,4 +1,4 @@
-## ChamberCrawler3000 (CC3K)
+# ChamberCrawler3000 (CC3K)
 ChamberCrawler3000 (CC3K) is a text-based dungeon crawler Rogue game implemented in C++. This project showcases a variety of Object-Oriented Programming (OOP) principles and design patterns to create an engaging and extensible game environment.
 
 ## Features
@@ -19,12 +19,12 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 - Installation
   1. clone the repository
-       $git clone https://github.com/MINGYISU/ChamberCrawler300.git
-       $cd ChamberCrawler300
-  2. Build the project using GNU Make (A Makefile has been provided)
-       $make
-  3. run the game
-       $./cc3k
+     * $git clone https://github.com/MINGYISU/ChamberCrawler300.git
+     * $cd ChamberCrawler300
+  3. Build the project using GNU Make (A Makefile has been provided)
+     * $make
+  5. run the game
+     * $./cc3k
 
 ## Usage
 - Player movements:

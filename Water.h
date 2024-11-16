@@ -3,11 +3,11 @@
 #include "PotEffect.h"
 using namespace std;
 
-class Water: public PotEffect {
-    public:
-    int changeAtk() override;
-    int changeDef() override;
-    ~Water();
+class Water : public PotEffect {
+public:
+  int changeAtk() override;
+  int changeDef() override;
+  ~Water();
 };
 
 #endif

@@ -3,10 +3,10 @@
 
 #include "player.h"
 
-class Goblin: public Player {
-    public:
-        Goblin(Map *p, int x, int y, int a, std::string r = "Goblin");
-        void attack(Character *e) override;
+class Goblin : public Player {
+public:
+  Goblin(Map *p, int x, int y, int a, std::string r = "Goblin");
+  void attack(Character *e) override;
 };
 
 #endif

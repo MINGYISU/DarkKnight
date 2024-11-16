@@ -4,12 +4,13 @@
 #include "PotEffect.h"
 
 using namespace std;
-class PotDeco: public PotEffect {
-    protected:
-    PotEffect *DecoratedPot;
-    public:
-    PotDeco(PotEffect *p);
-    virtual ~PotDeco();
+class PotDeco : public PotEffect {
+protected:
+  PotEffect *DecoratedPot;
+
+public:
+  PotDeco(PotEffect *p);
+  virtual ~PotDeco();
 };
 
 #endif

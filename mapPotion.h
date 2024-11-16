@@ -4,15 +4,13 @@
 #include <string>
 using namespace std;
 
-class MapPotion: public Pickable{
-    string type;
+class MapPotion : public Pickable {
+  string type;
 
-    public:
-        MapPotion(Map *p, int x, int y, string t);
-        string getType();
-        char charAt(int x, int y) override;
+public:
+  MapPotion(Map *p, int x, int y, string t);
+  string getType();
+  char charAt(int x, int y) override;
 };
 
 #endif
-
-

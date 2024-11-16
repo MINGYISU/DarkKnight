@@ -53,7 +53,7 @@ void Window::display() {
       {
         out << ESC << BACKGROUND << ";" << YELLOW_TXT << "m" << output << RESET;
       }
-      else if ((output == 'm')){
+      else if (output == 'm') {
         out << ESC << BACKGROUND << ";" << BLUE_TXT << "m" << 'M' << RESET;
       }
       else{
@@ -67,42 +67,29 @@ void Window::display() {
 
 void Window::visionDisplay(){
   out << CLS;
-  for (int i = 0; i < Map::FLOORHEIGHT; ++i)
-  {
-    for (int j = 0; j < Map::FLOORWIDTH; ++j)
-    {
-      if(pcVision[i][j] == 1){ //have the vision
+  for (int i = 0; i < Map::FLOORHEIGHT; ++i) {
+    for (int j = 0; j < Map::FLOORWIDTH; ++j) {
+      if (pcVision[i][j] == 1) { //have the vision
         char output = picture()->charAt(j, i);
-        if (output == 'G')
-        {
+        if (output == 'G') {
           out << ESC << BACKGROUND << ";" << YELLOW_TXT << "m" << output << RESET;
-        }
-        else if ((output == '@') || (output == '\\'))
-        {
+        } else if ((output == '@') || (output == '\\')) {
           out << ESC << BACKGROUND << ";" << BLUE_TXT << "m" << output << RESET;
-        }
-        else if (output == 'P')
-        {
+        } else if (output == 'P') {
           out << ESC << BACKGROUND << ";" << GREEN_TXT << "m" << output << RESET;
         }
-        else if ((output == 'H') || (output == 'W') || (output == 'E') || (output == 'O') || (output == 'M') || (output == 'D') || (output == 'L'))
-        {
+        else if ((output == 'H') || (output == 'W') || (output == 'E') || (output == 'O') || (output == 'M') || (output == 'D') || (output == 'L')) {
           out << ESC << BACKGROUND << ";" << RED_TXT << "m" << output << RESET;
-        }else if ((output == 'm')){
+        } else if (output == 'm'){
           out << ESC << BACKGROUND << ";" << BLUE_TXT << "m" << 'M' << RESET;
-        }
-        else if (output == 'X')
-        {
+        } else if (output == 'X') {
           out << ESC << BACKGROUND << ";" << RED_BACK << "m" << output << RESET;
-        }
-        else if(output == '!'){
+        } else if (output == '!') {
           out << ESC << BACKGROUND << ";" << YELLOW_TXT << "m" << output << RESET;
-        }
-        else
-        {
+        } else {
           out << output;
         }
-      }else{ //does not have the vision
+      } else { //does not have the vision
         out << ESC << BACKGROUND_VISION << ";" << RED_TXT << "m" << ':' << RESET;
       }
     }

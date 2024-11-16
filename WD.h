@@ -3,10 +3,10 @@
 #include "PotDeco.h"
 using namespace std;
 
-class WD final: public PotDeco {
-    public:
-    WD (PotEffect *p);
-    int changeAtk() override;
-    int changeDef() override;
+class WD final : public PotDeco {
+public:
+  WD(PotEffect *p);
+  int changeAtk() override;
+  int changeDef() override;
 };
 #endif

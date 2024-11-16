@@ -1,5 +1,4 @@
 #include "pickable.h"
-using namespace std;
 
 Pickable::Pickable(Map *p, int x, int y) : Decorator{p}, xCor{x}, yCor{y}, toprint{true} {}
 

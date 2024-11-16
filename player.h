@@ -30,8 +30,8 @@ public:
   virtual void drinkPot(std::string PotType);
   void gain(int amt);
   bool hurt(int dmg) override;
-  virtual int getAtk();
-  virtual int getDef();
+  virtual int getAtk() override;
+  virtual int getDef() override;
   int getAsset();
   void setHP(int hp);
   string getEquip();

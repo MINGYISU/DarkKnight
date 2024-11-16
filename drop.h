@@ -1,7 +1,6 @@
 #ifndef DROP_H
 #define DROP_H
 #include "gold.h"
-using namespace std;
 
 class Drop : public Gold {
 public:

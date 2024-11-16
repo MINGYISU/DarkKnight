@@ -1,5 +1,4 @@
 #include "BA.h"
-using namespace std;
 
 BA::BA(PotEffect *p):
     PotDeco {p} {}

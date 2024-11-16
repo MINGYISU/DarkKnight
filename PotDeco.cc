@@ -1,5 +1,4 @@
 #include "PotDeco.h"
-using namespace std;
 
 PotDeco::PotDeco(PotEffect *p):
     DecoratedPot{p} {}

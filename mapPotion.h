@@ -2,6 +2,7 @@
 #define MAPPOTION_H
 #include "pickable.h"
 #include <string>
+
 using namespace std;
 
 class MapPotion : public Pickable {

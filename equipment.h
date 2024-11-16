@@ -2,6 +2,7 @@
 #define EQUIPMENT_H
 #include "pickable.h"
 #include <string>
+
 using namespace std;
 
 class Equipment : public Pickable {

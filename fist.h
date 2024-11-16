@@ -1,7 +1,6 @@
 #ifndef FIST_H
 #define FIST_H
 #include "equipment.h"
-using namespace std;
 
 class Fist : public Equipment {
 public:

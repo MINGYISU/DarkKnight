@@ -1,5 +1,4 @@
 #include "sword.h"
-using namespace std;
 
 Sword::Sword(Map *p, int x, int y):
     Equipment{p, x, y} {}

@@ -4,8 +4,6 @@
 #include "coc.h"
 #include "enemy.h"
 
-using namespace std;
-
 class Merchant : public Enemy {
   ChamberOfCommerce *home;
 

@@ -1,5 +1,4 @@
 #include "BD.h"
-using namespace std;
 
 BD::BD(PotEffect *p):
     PotDeco {p} {}

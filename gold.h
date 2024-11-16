@@ -2,7 +2,6 @@
 #define GOLD_H
 
 #include "pickable.h"
-using namespace std;
 
 class Gold : public Pickable {
 protected:

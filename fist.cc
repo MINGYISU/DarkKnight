@@ -1,5 +1,4 @@
 #include "fist.h"
-using namespace std;
 
 Fist::Fist(Map *p, int x, int y):
     Equipment{p, x, y} {

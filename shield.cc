@@ -1,5 +1,4 @@
 #include "shield.h"
-using namespace std;
 
 Shield::Shield(Map *p, int x, int y):
     Equipment{p, x, y} {}

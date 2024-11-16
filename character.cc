@@ -1,8 +1,6 @@
 #include "character.h"
 #include <cmath>
 
-using namespace std;
-
 std::string Character::getRace() { return race; }
 
 Character::Character(Map *p, int x, int y, 

@@ -1,7 +1,6 @@
 #ifndef SWORD_H
 #define SWORD_H
 #include "equipment.h"
-using namespace std;
 
 class Sword : public Equipment {
 public:

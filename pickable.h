@@ -1,6 +1,5 @@
 #ifndef PICKABLE_H
 #define PICKABLE_H
-using namespace std;
 #include "decorator.h"
 
 class Pickable : public Decorator {

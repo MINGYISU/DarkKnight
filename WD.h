@@ -1,7 +1,6 @@
 #ifndef WD_H
 #define WD_H
 #include "PotDeco.h"
-using namespace std;
 
 class WD final : public PotDeco {
 public:

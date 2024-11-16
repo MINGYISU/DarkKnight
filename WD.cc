@@ -1,5 +1,4 @@
 #include "WD.h"
-using namespace std;
 
 WD::WD(PotEffect *p):
     PotDeco {p} {}

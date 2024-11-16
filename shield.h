@@ -1,7 +1,6 @@
 #ifndef SHIELD_H
 #define SHIELD_H
 #include "equipment.h"
-using namespace std;
 
 class Shield : public Equipment {
 public:

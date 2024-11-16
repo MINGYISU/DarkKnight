@@ -1,6 +1,5 @@
 #include "window.h"
 #include "map.h"
-using namespace std;
 
 #define ESC "\033["
 #define BACKGROUND "1"
@@ -15,16 +14,11 @@ using namespace std;
 
 
 void Window::windowInit(Player* pc){
-  for (int row = 0; row < Map::FLOORHEIGHT; row++)
-  {
-    for (int column = 0; column < Map::FLOORWIDTH; column++)
-    {
-      if ((pc->getX() <= column + 5) && (pc->getX() >= column - 5) && (pc->getY() <= row + 5) && (pc->getY() >= row - 5))
-      {
+  for (int row = 0; row < Map::FLOORHEIGHT; row++) {
+    for (int column = 0; column < Map::FLOORWIDTH; column++) {
+      if ((pc->getX() <= column + 5) && (pc->getX() >= column - 5) && (pc->getY() <= row + 5) && (pc->getY() >= row - 5)) {
         pcVision[row][column] = 1;
-      }
-      else
-      {
+      } else {
         pcVision[row][column] = 0;
       }
     }
@@ -37,26 +31,22 @@ void Window::display() {
   for (int i = 0; i < Map::FLOORHEIGHT; ++i) {
     for (int j = 0; j < Map::FLOORWIDTH; ++j) {
       char output = picture()->charAt(j, i);
-      if(output == 'G'){
+      if (output == 'G') {
         out << ESC << BACKGROUND << ";" << YELLOW_TXT << "m" << output << RESET;
-      }else if((output == '@') || (output == '\\')){
+      } else if ((output == '@') || (output == '\\')){
         out << ESC << BACKGROUND << ";" << BLUE_TXT << "m" << output << RESET;
-      }else if(output == 'P'){
+      } else if (output == 'P'){
         out << ESC << BACKGROUND << ";" << GREEN_TXT << "m" << output << RESET;
-      }else if((output == 'H') || (output == 'W') || (output == 'E') || (output == 'O') || (output == 'M')
+      } else if ((output == 'H') || (output == 'W') || (output == 'E') || (output == 'O') || (output == 'M')
                 || (output == 'D') || (output == 'L')){
         out << ESC << BACKGROUND << ";" << RED_TXT << "m" << output << RESET;
-      }else if (output == 'X') {
+      } else if (output == 'X') {
         out << ESC << BACKGROUND << ";" << RED_BACK << "m" << output << RESET;
-      }
-      else if (output == '!')
-      {
+      } else if (output == '!') {
         out << ESC << BACKGROUND << ";" << YELLOW_TXT << "m" << output << RESET;
-      }
-      else if (output == 'm') {
+      } else if (output == 'm') {
         out << ESC << BACKGROUND << ";" << BLUE_TXT << "m" << 'M' << RESET;
-      }
-      else{
+      } else {
         out << output;
       }
     }

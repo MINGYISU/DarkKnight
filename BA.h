@@ -1,7 +1,6 @@
 #ifndef BA_H
 #define BA_H
 #include "PotDeco.h"
-using namespace std;
 
 class BA final : public PotDeco {
 public:

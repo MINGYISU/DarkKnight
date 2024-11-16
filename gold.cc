@@ -1,5 +1,4 @@
 #include "gold.h"
-using namespace std;
 
 Gold::Gold(Map *p, int x, int y, int a) : Pickable{p, x, y}, amount{a} {}
 

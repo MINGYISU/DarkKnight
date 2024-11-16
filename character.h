@@ -4,6 +4,7 @@
 #include "decorator.h"
 #include <cmath>
 #include <string>
+
 using namespace std;
 
 class Character : public Decorator {

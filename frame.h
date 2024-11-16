@@ -6,6 +6,8 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 class Frame : public Decorator {
   char coordinate[FLOORHEIGHT][FLOORWIDTH];
 

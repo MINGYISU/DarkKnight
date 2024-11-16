@@ -1,8 +1,4 @@
 #include "frame.h"
-using namespace std;
-
-
-
 
 Frame::Frame(Map* p): Decorator{p}{
     ifstream MyFile("cc3k-emptySingleFloor.txt");

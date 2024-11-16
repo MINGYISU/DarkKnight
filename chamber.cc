@@ -1,5 +1,4 @@
 #include "chamber.h"
-using namespace std;
 
 Chamber::Chamber(Map* p, int yMax, int yMin, 
                 int xMin, int xMax, string Filename): 

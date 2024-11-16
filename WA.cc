@@ -1,5 +1,4 @@
 #include "WA.h"
-using namespace std;
 
 WA::WA(PotEffect *p):
     PotDeco {p} {}

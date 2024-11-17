@@ -9,7 +9,6 @@
 #include "gold.h"
 #include "drop.h"
 #include "dragonhoard.h"
-#include "BA.h"
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>

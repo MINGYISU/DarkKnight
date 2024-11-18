@@ -493,8 +493,8 @@ int main(int argc, char* argv[]) {
     }
 
     string MSG;
-    string Filename = "/map_resource/emptySingleFloor.txt";
-    string FilenameModified = "/map_resource/emptySingleFloor-modified.txt";
+    string Filename = "../map_resource/emptySingleFloor.txt";
+    string FilenameModified = "../map_resource/emptySingleFloor-modified.txt";
 
     bool restart = false;
     bool quit = false;

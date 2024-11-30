@@ -2,17 +2,6 @@
 
 ChamberCrawler3000 (CC3K) is a text-based dungeon crawler Rogue game implemented in C++. This project showcases a variety of Object-Oriented Programming (OOP) principles and design patterns to create an engaging and extensible game environment.
 
-## Features
-
-Object-Oriented Programming: Utilizes multiple OOP principles such as class inheritance to model the game's characters and entities.
-
-- Class Inheritance: Characters, items, and other game elements are implemented through a well-defined class hierarchy, enabling code reuse and extensibility.
-  - Design Patterns: Implements several design patterns to manage game logic and items effectively.
-    - Observer Pattern: Used to handle the communication between game objects, ensuring that changes in the state of one object can automatically propagate to dependent objects.
-    - Decorator Pattern: Allows dynamic addition of responsibilities to objects, such as adding enchantments to the map and potion effects to characters.
-    - Strategy Pattern: Facilitates the definition of a family of algorithms, encapsulating each one and making them interchangeable. This is used for different movement behaviors of enemies, item generation strategies, and the switch between player's weapons.
-Other Features: Incorporates advanced C++ features to manage the game's core functionalities.
-
 ## Getting Started
 
 Follow these instructions to get a copy of the project up and running on your local machine.

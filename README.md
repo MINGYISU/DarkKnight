@@ -13,7 +13,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 - Installation
   1. clone the repository
      - $git clone <https://github.com/MINGYISU/DarkKnight.git>
-     - $cd ChamberCrawler300/src
+     - $cd DarkKnight/src
   2. Build the project using GNU Make (A Makefile has been provided)
      - $make
   3. run the game

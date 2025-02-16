@@ -1,6 +1,6 @@
-# ChamberCrawler3000 (CC3K)
+# Dark Knight: A C++ Command-Line Adventure
 
-ChamberCrawler3000 (CC3K) is a text-based dungeon crawler Rogue game implemented in C++. This project showcases a variety of Object-Oriented Programming (OOP) principles and design patterns to create an engaging and extensible game environment.
+Dark Knight is a text-based dungeon crawler Rogue game implemented in C++. This project showcases a variety of Object-Oriented Programming (OOP) principles and design patterns to create an engaging and extensible game environment.
 
 ## Getting Started
 
@@ -12,12 +12,12 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 - Installation
   1. clone the repository
-     - $git clone <https://github.com/MINGYISU/ChamberCrawler3000.git>
+     - $git clone <https://github.com/MINGYISU/DarkKnight.git>
      - $cd ChamberCrawler300/src
   2. Build the project using GNU Make (A Makefile has been provided)
      - $make
   3. run the game
-     - $./cc3k
+     - $./darkknight
 
 ## Usage
 
@@ -31,4 +31,4 @@ be one block north of the @).
   - r: restarts the game. All stats, inventory, and gold are reset. A new race should be selected.
   - q: allows the player to admit defeat and exit the game.
 
-The other features are waiting for you to explore! (Hint: Use the command $./cc3k dlc to play the DLC version of the game!)
+The other features are waiting for you to explore! (Hint: Use the command $./darkknight dlc to play the DLC version of the game!)
